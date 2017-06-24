@@ -1,2 +1,5 @@
-# dotfiles
-Repo hosting all the dotfiles of my linux machine
+# Dotfiles
+
+Repo hosting all the dotfiles of my Gentoo machine. 
+
+Using [HomeShick](https://github.com/andsens/homeshick/)
