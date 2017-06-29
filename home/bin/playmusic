@@ -1,0 +1,3 @@
+#!/bin/bash
+find "/home/hkr/Drive/Musica Para estudio/EPIC" -type f -name "*" > /tmp/playlist
+mplayer -shuffle -playlist /tmp/playlist

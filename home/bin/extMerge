@@ -1,0 +1,3 @@
+#!/bin/sh
+
+/home/hkr/bin/p4merge/bin/p4merge $*

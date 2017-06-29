@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd /home/hkr/Desarrollo/algui91.github.io/src/img/guides
+wget -O image.jpg "$1"
+convert -resize 311x image.jpg "$2"-full-thumb.jpg
+rm image.jpg
