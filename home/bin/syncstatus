@@ -1,8 +1,2 @@
 #/bin/bash
-
-while true
-do
-	clear
-	/home/hkr/bin/insync-portable/insync-portable get_sync_progress
-	sleep 1
-done
+watch -n.01 insync-bin get_sync_progress
