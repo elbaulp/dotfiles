@@ -41,6 +41,9 @@
 ;; UI stuff ;;
 ;;;;;;;;;;;;;;
 
+;; enable y/n answers
+(fset 'yes-or-no-p 'y-or-n-p)
+
 ;; the blinking cursor is nothing, but an annoyance
 (blink-cursor-mode -1)
 
