@@ -1,4 +1,3 @@
-
 ;; global variables
 (setq
  inhibit-startup-screen t
@@ -8,8 +7,8 @@
  scroll-error-top-bottom t
  show-paren-delay 0.5
  use-package-always-ensure t
+ show-trailing-whitespace t
  sentence-end-double-space nil)
-
 
 ;; buffer local variables
 (setq-default
@@ -40,6 +39,9 @@
 ;;;;;;;;;;;;;;
 ;; UI stuff ;;
 ;;;;;;;;;;;;;;
+
+;; Clean whitespaces on save
+(add-hook 'before-save-hook 'whitespace-cleanup)
 
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -77,13 +79,37 @@
 ;; Packages ;;
 ;;;;;;;;;;;;;;
 
+;; Ensime
+(use-package ensime
+  :ensure t
+  :pin melpa)
+
+(use-package sbt-mode
+  :ensure t
+  :pin melpa)
+
+(use-package scala-mode
+  :ensure t
+  :pin melpa)
 
 ;; Projectile
 ;; http://batsov.com/projectile/
 (use-package projectile
-  :ensure t)
+  :ensure t
+  :demand
+  :init   (setq projectile-use-git-grep t)
+  :config (projectile-global-mode t)
+  :bind   (("s-f" . projectile-find-file)
+           ("s-F" . projectile-grep)))
 (projectile-global-mode)
 (setq projectile-require-project-root nil)
+
+;; Undo-tree
+(use-package undo-tree
+  :ensure t
+  :diminish undo-tree-mode
+  :config (global-undo-tree-mode)
+  :bind ("s-/" . undo-tree-visualize))
 
 ;; IBuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -147,6 +173,10 @@
 (helm-autoresize-mode 1)
 
 (global-set-key (kbd "M-x") 'helm-M-x)
+(add-to-list 'auto-mode-alist '("\\.org\\’" . org-mode))
+(global-set-key "\C-cl" 'org-store-link)
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cb" 'org-iswitchb)
 
 (use-package helm-descbinds
   :ensure t)
@@ -206,12 +236,38 @@
 
 ;; Hightlight Symbols
 (use-package highlight-symbol
+  :ensure t
   :diminish highlight-symbol-mode
   :commands highlight-symbol
   :bind ("M-6" . highlight-symbol)
   :bind ("M-7" . highlight-symbol-next)
   :bind ("M-8" . highlight-symbol-prev)
   :bind ("M-9" . highlight-symbol-query-replace))
+
+;; Goto last change
+(use-package goto-chg
+  :ensure t
+  :commands goto-last-change
+  ;; complementary to
+  ;; C-x r m / C-x r l
+  ;; and C-<space> C-<space> / C-u C-<space>
+  :bind (("C-." . goto-last-change)
+         ("C-," . goto-last-change-reverse)))
+
+;; Popup Summary
+(use-package popup-imenu
+  :ensure t
+  :commands popup-imenu
+  :bind ("M-i" . popup-imenu))
+
+;; Git
+(use-package magit
+  :ensure t
+  :commands magit-status magit-blame
+  :init (setq
+         magit-revert-buffers nil)
+  :bind (("s-g" . magit-status)
+         ("s-b" . magit-blame)))
 
 ;; Newlines in comments
 (defun scala-mode-newline-comments ()
@@ -220,6 +276,12 @@
   (interactive)
   (newline-and-indent)
   (scala-indent:insert-asterisk-on-multiline-comment))
+
+;; Multiline comments
+(setq comment-start "/* "
+      comment-end " */"
+      comment-style 'multi-line
+      comment-empty-lines t)
 
 ;; Smart Parentheses
 (use-package smartparens
@@ -307,7 +369,7 @@
  '(org-startup-truncated nil)
  '(package-selected-packages
    (quote
-    (which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+    (magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
  '(size-indication-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces
