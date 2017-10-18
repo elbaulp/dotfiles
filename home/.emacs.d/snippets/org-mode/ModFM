@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: FrontMatter Mod
+# key: modf
+# --
+lastmod: `(format-time-string "%Y-%m-%dT%H:%M:%S+02:00")`

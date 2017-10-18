@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# name: Modified
+# key: mod
+# # modified: 2016-$1-$2T$3:$4$0
+# --
+lastmod = "`(format-time-string "%Y-%m-%dT%H:%M:%S+02:00")`"$0

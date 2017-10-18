@@ -40,6 +40,13 @@
 ;; UI stuff ;;
 ;;;;;;;;;;;;;;
 
+;; Enable flyspell
+
+(setq ispell-program-name "aspell" ; use aspell instead of ispell
+      ispell-extra-args '("--sug-mode=ultra"))
+
+(add-hook 'text-mode-hook 'flyspell-mode)
+
 ;; Clean whitespaces on save
 (add-hook 'before-save-hook 'whitespace-cleanup)
 
@@ -73,13 +80,21 @@
 (global-linum-mode t)
 (global-hl-line-mode)
 
+(use-package jbeans-theme
+  :ensure t)
+
 (load-theme 'jbeans t)
 
 ;;;;;;;;;;;;;;
 ;; Packages ;;
 ;;;;;;;;;;;;;;
 
-;; Ensime
+;; Ensime stable
+;; (use-package ensime
+;;   :ensure t
+;;   :pin melpa-stable)
+
+;; Ensime - unstable
 (use-package ensime
   :ensure t
   :pin melpa)
@@ -369,7 +384,7 @@
  '(org-startup-truncated nil)
  '(package-selected-packages
    (quote
-    (magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+    (camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
  '(size-indication-mode t)
  '(tool-bar-mode nil))
 (custom-set-faces

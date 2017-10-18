@@ -1,0 +1,22 @@
+# name: Figure
+# expand-env: ((yas-indent-line 'fixed) (yas-wrap-around-region 'nil))
+# key: fg
+# --
+<figure>
+        <a href="/img/$1">
+          <amp-img
+            on="tap:lightbox1"
+            role="button"
+            tabindex="0"
+            layout="responsive"
+            src="/img/$1"
+            alt="$2"
+            title="$2"
+            sizes="(min-width: $3px) $3px, 100vw"
+            width="$3"
+            height="$4">
+          </amp-img>
+        </a>
+        <figcaption>$2</figcaption>
+</figure>
+$0
