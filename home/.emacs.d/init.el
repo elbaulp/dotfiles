@@ -40,6 +40,11 @@
 ;; UI stuff ;;
 ;;;;;;;;;;;;;;
 
+;; Hightlight parenthesis
+(setq show-paren-delay 0)           ; how long to wait?
+(show-paren-mode t)                 ; turn paren-mode on
+(setq show-paren-style 'expression) ; alternatives are 'parenthesis' and 'mixed'
+
 ;; Enable flyspell
 
 (setq ispell-program-name "aspell" ; use aspell instead of ispell
@@ -90,22 +95,22 @@
 ;;;;;;;;;;;;;;
 
 ;; Ensime stable
-;; (use-package ensime
-;;   :ensure t
-;;   :pin melpa-stable)
-
-;; Ensime - unstable
 (use-package ensime
   :ensure t
-  :pin melpa)
+  :pin melpa-stable)
 
-(use-package sbt-mode
-  :ensure t
-  :pin melpa)
+;; Ensime - unstable
+;;(use-package ensime
+;;  :ensure t
+;;  :pin melpa)
 
-(use-package scala-mode
-  :ensure t
-  :pin melpa)
+;;(use-package sbt-mode
+;;  :ensure t
+;;  :pin melpa)
+
+;;(use-package scala-mode
+;;  :ensure t
+;;  :pin melpa)
 
 ;; Projectile
 ;; http://batsov.com/projectile/
