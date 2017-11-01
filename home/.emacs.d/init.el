@@ -9,6 +9,7 @@
  use-package-always-ensure t
  show-trailing-whitespace t
  sentence-end-double-space nil)
+(setenv "TZ" "Europe/Madrid")
 
 ;; buffer local variables
 (setq-default

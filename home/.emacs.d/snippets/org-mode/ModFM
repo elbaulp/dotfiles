@@ -2,4 +2,4 @@
 # name: FrontMatter Mod
 # key: modf
 # --
-lastmod: `(format-time-string "%Y-%m-%dT%H:%M:%S+02:00")`
+lastmod: `(format-time-string "%FT%T%z" nil "Europe/Madrid")`$0
