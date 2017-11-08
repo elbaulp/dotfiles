@@ -40,14 +40,17 @@
 ;;;;;;;;;;;;;;
 ;; UI stuff ;;
 ;;;;;;;;;;;;;;
-
+;; Font size in 1/10pt, so 100 would be 10pt
+(set-face-attribute 'default nil :height 80)
 ;; Hightlight parenthesis
 (setq show-paren-delay 0)           ; how long to wait?
 (show-paren-mode t)                 ; turn paren-mode on
 (setq show-paren-style 'expression) ; alternatives are 'parenthesis' and 'mixed'
 
-;; Enable flyspell
+;; Remove scrollbar
+(scroll-bar-mode -1)
 
+;; Enable flyspell
 (setq ispell-program-name "aspell" ; use aspell instead of ispell
       ispell-extra-args '("--sug-mode=ultra"))
 
@@ -83,7 +86,10 @@
 (use-package hlinum
   :ensure t)
 (hlinum-activate)
-(global-linum-mode t)
+;; Show line numbers in margin
+;; (global-linum-mode t)
+;; Hightlight current line
+;; Old color 2d2e3a
 (global-hl-line-mode)
 
 (use-package jbeans-theme
@@ -94,6 +100,11 @@
 ;;;;;;;;;;;;;;
 ;; Packages ;;
 ;;;;;;;;;;;;;;
+
+(use-package org-bullets
+  :ensure t
+  :config (add-hook 'org-mode-hook 'org-bullets-mode))
+(add-hook 'org-mode-hook 'org-indent-mode)
 
 ;; Ensime stable
 (use-package ensime
@@ -383,19 +394,25 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
+ '(display-time-24hr-format t)
+ '(display-time-day-and-date nil)
+ '(display-time-default-load-average nil)
  '(display-time-mode t)
+ '(global-hl-line-sticky-flag nil)
  '(linum-highlight-in-all-buffersp t)
  '(menu-bar f)
  '(menu-bar-mode nil)
  '(org-startup-truncated nil)
  '(package-selected-packages
    (quote
-    (camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+    (org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
  '(size-indication-mode t)
+ '(sml/no-confirm-load-theme t)
  '(tool-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:inherit nil :stipple nil :background "#151515" :foreground "#cccccc" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 83 :width normal :foundry "PfEd" :family "Source Code Pro"))))
+ '(hl-line ((t (:background "dim gray")))))
