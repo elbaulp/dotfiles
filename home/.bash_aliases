@@ -79,6 +79,7 @@ export PATH=${PATH}:/opt/cisco/anyconnect/bin/
 export PATH=${PATH}:~/Desarrollo/android-sdk-linux/platform-tools
 export PATH=~/.npm-global/bin:$PATH
 export PATH=${PATH}:~/go/bin/
+export PATH=${PATH}:~/.gem/ruby/2.2.0/bin/
 
 export GREP_COLORS="mc=00;36:ms=31:mt=01;38"
 export TERM=xterm-256color

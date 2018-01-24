@@ -35,8 +35,6 @@
   (package-install 'use-package))
 (require 'use-package)
 
-
-
 ;;;;;;;;;;;;;;
 ;; UI stuff ;;
 ;;;;;;;;;;;;;;
@@ -70,6 +68,20 @@
       scroll-conservatively 100000
       scroll-preserve-screen-position 1)
 
+;; Emacs Speaks Statistics
+(use-package ess
+  :ensure t)
+(use-package polymode
+  :ensure t)
+(setq ess-eval-visibly-p nil)
+
+;; Polymode activations
+;;; MARKDOWN
+(add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))
+;;; R modes
+(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
+
+
 ;; Color the status menu
 (use-package smart-mode-line
   :ensure t)
@@ -92,6 +104,7 @@
 ;; Old color 2d2e3a
 (global-hl-line-mode)
 
+;; Themes
 (use-package jbeans-theme
   :ensure t)
 
@@ -111,18 +124,8 @@
   :ensure t
   :pin melpa-stable)
 
-;; Ensime - unstable
-;;(use-package ensime
-;;  :ensure t
-;;  :pin melpa)
+;; Ensime Unstable
 
-;;(use-package sbt-mode
-;;  :ensure t
-;;  :pin melpa)
-
-;;(use-package scala-mode
-;;  :ensure t
-;;  :pin melpa)
 
 ;; Projectile
 ;; http://batsov.com/projectile/
@@ -398,14 +401,19 @@
  '(display-time-day-and-date nil)
  '(display-time-default-load-average nil)
  '(display-time-mode t)
+ '(ess-indent-with-fancy-comments nil)
+ '(ess-tab-complete-in-script t)
+ '(global-hl-line-mode t)
  '(global-hl-line-sticky-flag nil)
+ '(linum-format " %3i ")
  '(linum-highlight-in-all-buffersp t)
  '(menu-bar f)
  '(menu-bar-mode nil)
  '(org-startup-truncated nil)
  '(package-selected-packages
    (quote
-    (org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+    (yatemplate shut-up buttercup ess-rutils polymode leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+ '(save-place-mode t)
  '(size-indication-mode t)
  '(sml/no-confirm-load-theme t)
  '(tool-bar-mode nil))
@@ -414,5 +422,5 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#151515" :foreground "#cccccc" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 83 :width normal :foundry "PfEd" :family "Source Code Pro"))))
- '(hl-line ((t (:background "dim gray")))))
+ '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 83 :width normal :foundry "PfEd" :family "Source Code Pro"))))
+ '(hl-line ((t (:background "dim gray" :underline nil)))))

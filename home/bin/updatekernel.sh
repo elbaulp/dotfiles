@@ -25,7 +25,7 @@ _main () {
     echo "Copying old configuration..."
     cp /usr/src/linux/.config /tmp/.config
     echo "Setting new kernel as default..."
-    #ln -sf /usr/src/"$1" /usr/src/linux
+    ln -sf /usr/src/"$1" /usr/src/linux
     cp /tmp/.config /usr/src/linux/
     eselect kernel set 2
     cd /usr/src/linux/
@@ -35,6 +35,7 @@ _main () {
     emerge --ask @module-rebuild
     make -j4
     make install
+    make -j4 modules_install
     echo "Please, update your EFI entry: cp /boot/vmlinuz-*-gentoo /boot/efi/boot/bootx64.efi"
 }
 

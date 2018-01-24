@@ -81,7 +81,7 @@ export BASH_IT="/home/hkr/.bash_it"
 
 # Lock and Load a custom theme file
 # location /.bash_it/themes/
-export BASH_IT_THEME="powerline-multiline"
+export BASH_IT_THEME="kitsune"
 
 # (Advanced): Change this to the name of your remote repo if you
 # cloned bash-it with a remote other than origin such as `bash-it`.
@@ -129,3 +129,6 @@ source "$BASH_IT"/bash_it.sh
 
 source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 source "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash"
+
+# added by travis gem
+[ -f /home/hkr/.travis/travis.sh ] && source /home/hkr/.travis/travis.sh
