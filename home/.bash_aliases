@@ -1,6 +1,7 @@
 alias gdb='gdb -q'
 alias net='netstat -apnA inet'
 alias blog="cd ~/Desarrollo/algui91-hugo/"
+alias blogserve="hugo server -Dw --templateMetrics --log -t gohugo-amp"
 
 # Some latex Aliases
 alias xelatex='xelatex -shell-escape -output-directory=metafiles'
@@ -32,8 +33,8 @@ alias fuck='sudo $(history -p \!\!)'
 
 # Misc
 alias optipng='optipng -o9 -i0'
-alias youtube-dl='youtube-dl --extract-audio --audio-format mp3  --audio-quality 0'
-# alias youtube-dl-video='/usr/bin/youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best''
+alias youtube-dl-audio='youtube-dl --extract-audio --audio-format mp3  --audio-quality 0'
+alias youtube-dl-video="youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best'"
 alias imgsize='identify -format "width=\"%[fx:w]\" height=\"%[fx:h]\"\n"'
 alias arandr='arandr --force-version'
 alias mplayerhdmi='mplayer -ao alsa:device=hdmi'

@@ -38,12 +38,21 @@
 ;;;;;;;;;;;;;;
 ;; UI stuff ;;
 ;;;;;;;;;;;;;;
+(use-package rainbow-delimiters
+  :ensure t
+  :commands rainbow-delimiters-mode
+  :init (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
+
 ;; Font size in 1/10pt, so 100 would be 10pt
 (set-face-attribute 'default nil :height 80)
 ;; Hightlight parenthesis
 (setq show-paren-delay 0)           ; how long to wait?
 (show-paren-mode t)                 ; turn paren-mode on
-(setq show-paren-style 'expression) ; alternatives are 'parenthesis' and 'mixed'
+(setq show-paren-style 'parenthesis) ; alternatives are 'parenthesis' and 'mixed'
+
+
+;; Automatically reload changed files
+(global-auto-revert-mode t)
 
 ;; Remove scrollbar
 (scroll-bar-mode -1)
@@ -75,6 +84,10 @@
   :ensure t)
 (setq ess-eval-visibly-p nil)
 
+;; Aadd license to file headers
+(use-package lice
+  :ensure t)
+
 ;; Polymode activations
 ;;; MARKDOWN
 (add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))
@@ -83,11 +96,11 @@
 
 
 ;; Color the status menu
-(use-package smart-mode-line
-  :ensure t)
-(setq sml/no-confirm-load-theme t)
-(setq sml/theme 'dark)
-(add-hook 'after-init-hook #'sml/setup)
+;; (use-package smart-mode-line
+;;   :ensure t)
+;; (setq sml/no-confirm-load-theme t)
+;; (setq sml/theme 'dark)
+;; (add-hook 'after-init-hook #'sml/setup)
 
 ;; show the cursor when moving after big movements in the window
 (use-package beacon
@@ -107,8 +120,15 @@
 ;; Themes
 (use-package jbeans-theme
   :ensure t)
+(use-package nord-theme
+  :ensure t)
 
-(load-theme 'jbeans t)
+(add-to-list 'custom-theme-load-path
+             (expand-file-name "~/.emacs.d/themes/"))
+
+(load-theme 'nord t)
+(setq nord-uniform-mode-lines t)
+
 
 ;;;;;;;;;;;;;;
 ;; Packages ;;
@@ -168,6 +188,9 @@
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "C-x b") 'helm-mini)
 (global-set-key (kbd "C-c h o") 'helm-occur)
+(global-set-key (kbd "M-y") 'helm-show-kill-ring)
+(global-set-key (kbd "C-c i") (lambda () (interactive) (find-file  "~/.emacs.d/init.el")))
+
 
 (global-unset-key (kbd "C-x c"))
 
@@ -337,6 +360,7 @@
   (sp-pair "[" "]" :wrap "s-[") ;; C-[ sends ESC
   (sp-pair "{" "}" :wrap "C-{")
 
+
   ;; WORKAROUND https://github.com/Fuco1/smartparens/issues/543
   (bind-key "C-<left>" nil smartparens-mode-map)
   (bind-key "C-<right>" nil smartparens-mode-map)
@@ -397,10 +421,15 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
+ '(custom-enabled-themes (quote (nord)))
+ '(custom-safe-themes
+   (quote
+    ("40da996f3246a3e99a2dff2c6b78e65307382f23db161b8316a5440b037eb72c" default)))
  '(display-time-24hr-format t)
  '(display-time-day-and-date nil)
  '(display-time-default-load-average nil)
  '(display-time-mode t)
+ '(doc-view-continuous t)
  '(ess-indent-with-fancy-comments nil)
  '(ess-tab-complete-in-script t)
  '(global-hl-line-mode t)
@@ -409,18 +438,32 @@
  '(linum-highlight-in-all-buffersp t)
  '(menu-bar f)
  '(menu-bar-mode nil)
+ '(org-export-backends (quote (ascii beamer html icalendar latex md)))
+ '(org-format-latex-options
+   (quote
+    (:foreground default :background default :scale 2.0 :html-foreground "Black" :html-background "Transparent" :html-scale 2.0 :matchers
+                 ("begin" "$1" "$" "$$" "\\(" "\\["))))
  '(org-startup-truncated nil)
+ '(org-startup-with-inline-images t)
  '(package-selected-packages
    (quote
-    (yatemplate shut-up buttercup ess-rutils polymode leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+    (rainbow-delimiters nord-theme lice yatemplate shut-up buttercup ess-rutils polymode leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
  '(save-place-mode t)
  '(size-indication-mode t)
  '(sml/no-confirm-load-theme t)
- '(tool-bar-mode nil))
+ '(tool-bar-mode nil)
+ '(user-full-name "Alejandro Alcalde"))
+;;(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ ;;'(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 83 :width normal :foundry "PfEd" :family "Source Code Pro"))))
+ ;;'(hl-line ((t (:background "dim gray" :underline nil))))
+;; )
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 83 :width normal :foundry "PfEd" :family "Source Code Pro"))))
- '(hl-line ((t (:background "dim gray" :underline nil)))))
+ )

@@ -17,7 +17,7 @@ while True:
         shell = True,
         stderr = subprocess.STDOUT)[:-1]
     currtime = datetime.now().strftime(u' CW %V, %a %b %e %T %Y ')
-    status_line = "Bat: {0}% {1}".format(battery, currtime)
+    status_line = " Bat: {0}% {1}".format(battery, currtime)
 
     r.set_wm_name(status_line)
     r.get_wm_name()
