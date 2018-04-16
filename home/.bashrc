@@ -132,3 +132,7 @@ source "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash"
 
 # added by travis gem
 [ -f /home/hkr/.travis/travis.sh ] && source /home/hkr/.travis/travis.sh
+
+
+export TERM=xterm-color
+export _JAVA_AWT_WM_NONREPARENTING=1

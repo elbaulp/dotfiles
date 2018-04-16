@@ -43,6 +43,9 @@
   :commands rainbow-delimiters-mode
   :init (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
+(use-package pyimport
+  :ensure t)
+
 ;; Font size in 1/10pt, so 100 would be 10pt
 (set-face-attribute 'default nil :height 80)
 ;; Hightlight parenthesis
@@ -126,8 +129,11 @@
 (add-to-list 'custom-theme-load-path
              (expand-file-name "~/.emacs.d/themes/"))
 
-(load-theme 'nord t)
+(setq nord-comment-brightness 20)
 (setq nord-uniform-mode-lines t)
+
+(load-theme 'nord t)
+
 
 
 ;;;;;;;;;;;;;;
@@ -138,6 +144,15 @@
   :ensure t
   :config (add-hook 'org-mode-hook 'org-bullets-mode))
 (add-hook 'org-mode-hook 'org-indent-mode)
+
+;; CDLATEX
+;(use-package auctex
+;  :ensure t)
+(use-package cdlatex
+  :ensure t)
+(add-hook 'org-mode-hook 'turn-on-org-cdlatex)
+
+(setq org-latex-create-formula-image-program 'imagemagick)
 
 ;; Ensime stable
 (use-package ensime
@@ -439,15 +454,23 @@
  '(menu-bar f)
  '(menu-bar-mode nil)
  '(org-export-backends (quote (ascii beamer html icalendar latex md)))
+ '(org-export-dispatch-use-expert-ui t)
+ '(org-export-headline-levels 6)
  '(org-format-latex-options
    (quote
     (:foreground default :background default :scale 2.0 :html-foreground "Black" :html-background "Transparent" :html-scale 2.0 :matchers
                  ("begin" "$1" "$" "$$" "\\(" "\\["))))
+ '(org-latex-listings (quote minted))
+ '(org-latex-minted-options (quote (("mathescape" "true"))))
+ '(org-latex-packages-alist (quote (("" "minted" t))))
+ '(org-latex-pdf-process
+   (quote
+    ("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f")))
  '(org-startup-truncated nil)
  '(org-startup-with-inline-images t)
  '(package-selected-packages
    (quote
-    (rainbow-delimiters nord-theme lice yatemplate shut-up buttercup ess-rutils polymode leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+    (auctex cdlatex ox-latex pyimport rainbow-delimiters nord-theme lice yatemplate shut-up buttercup ess-rutils polymode leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
  '(save-place-mode t)
  '(size-indication-mode t)
  '(sml/no-confirm-load-theme t)
