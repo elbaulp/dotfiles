@@ -4,7 +4,7 @@ alias blog="cd ~/Desarrollo/algui91-hugo/"
 alias blogserve="hugo server -Dw --templateMetrics --log -t gohugo-amp"
 
 # Some latex Aliases
-alias xelatex='xelatex -shell-escape -output-directory=metafiles'
+#alias xelatex='xelatex -shell-escape -output-directory=metafiles'
 alias mlatexmk='latexmk -shell-escape -pdf -pvc -output-directory=metafiles'
 alias mlatexmkx='latexmk -shell-escape -xelatex -pdf -pvc -output-directory=metafiles'
 
@@ -39,9 +39,10 @@ alias imgsize='identify -format "width=\"%[fx:w]\" height=\"%[fx:h]\"\n"'
 alias arandr='arandr --force-version'
 alias mplayerhdmi='mplayer -ao alsa:device=hdmi'
 alias subliminalen='subliminal download -l en'
-alias undrive='cd /tmp/; java -jar ~/Desarrollo/cryptomator/main/uber-jar/target/Cryptomator-1.3.1.jar'
+alias undrive='cd /tmp/; java -jar ~/Desarrollo/cryptomator/main/uber-jar/target/Cryptomator-1.3.2.jar'
 alias dav="mount ~/dav"
 alias undav="umount ~/dav"
+alias dirs="dirs -v"
 
 alias rd='rm -rfv'
 alias cp='cp -v'

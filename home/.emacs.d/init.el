@@ -121,19 +121,14 @@
 (global-hl-line-mode)
 
 ;; Themes
-(use-package jbeans-theme
-  :ensure t)
 (use-package nord-theme
-  :ensure t)
+  :ensure t
+  :pin melpa)
 
-(add-to-list 'custom-theme-load-path
-             (expand-file-name "~/.emacs.d/themes/"))
-
-(setq nord-comment-brightness 20)
 (setq nord-uniform-mode-lines t)
-
+(setq nord-comment-brightness 20)
+(setq nord-region-highlight "frost")
 (load-theme 'nord t)
-
 
 
 ;;;;;;;;;;;;;;
@@ -158,9 +153,6 @@
 (use-package ensime
   :ensure t
   :pin melpa-stable)
-
-;; Ensime Unstable
-
 
 ;; Projectile
 ;; http://batsov.com/projectile/
@@ -280,6 +272,9 @@
 
 ;; Personal
 (add-to-list 'exec-path "/usr/bin")
+
+(add-to-list 'load-path "~/.emacs.d/elpa/ess-17.11/lisp")
+(require 'ess-site)
 
 ;; Yasnippet
 (use-package yasnippet
@@ -435,24 +430,31 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(column-number-mode t)
- '(custom-enabled-themes (quote (nord)))
  '(custom-safe-themes
    (quote
-    ("40da996f3246a3e99a2dff2c6b78e65307382f23db161b8316a5440b037eb72c" default)))
+    ("5ed520c86d0f75a51ddce1390db509132870e465f0a9dfe4f0d8fa67ba9024f9" "7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "43c1a8090ed19ab3c0b1490ce412f78f157d69a29828aa977dae941b994b4147" "9a155066ec746201156bb39f7518c1828a73d67742e11271e4f24b7b178c4710" "40da996f3246a3e99a2dff2c6b78e65307382f23db161b8316a5440b037eb72c" default)))
  '(display-time-24hr-format t)
  '(display-time-day-and-date nil)
  '(display-time-default-load-average nil)
  '(display-time-mode t)
  '(doc-view-continuous t)
+ '(ensime-startup-notification nil)
  '(ess-indent-with-fancy-comments nil)
  '(ess-tab-complete-in-script t)
+ '(fill-column 110)
  '(global-hl-line-mode t)
  '(global-hl-line-sticky-flag nil)
+ '(hl-sexp-background-color "#efebe9")
  '(linum-format " %3i ")
  '(linum-highlight-in-all-buffersp t)
  '(menu-bar f)
  '(menu-bar-mode nil)
+ '(org-babel-load-languages (quote ((R . t))))
  '(org-export-backends (quote (ascii beamer html icalendar latex md)))
  '(org-export-dispatch-use-expert-ui t)
  '(org-export-headline-levels 6)
@@ -462,7 +464,7 @@
                  ("begin" "$1" "$" "$$" "\\(" "\\["))))
  '(org-latex-listings (quote minted))
  '(org-latex-minted-options (quote (("mathescape" "true"))))
- '(org-latex-packages-alist (quote (("" "minted" t))))
+ '(org-latex-packages-alist (quote (("outputdir=metafiles" "minted" t))))
  '(org-latex-pdf-process
    (quote
     ("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f")))
@@ -490,3 +492,4 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  )
+(put 'set-goal-column 'disabled nil)
