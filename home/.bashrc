@@ -136,3 +136,6 @@ source "$HOME/.homesick/repos/homeshick/completions/homeshick-completion.bash"
 
 export TERM=xterm-color
 export _JAVA_AWT_WM_NONREPARENTING=1
+export EDITOR="emacsclient"
+export PRINTER="HP_LaserJet_Professional_M1217nfw_MFP"
+PATH="$PATH:/home/hkr/.conscript/bin"

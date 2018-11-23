@@ -1,7 +1,7 @@
 alias gdb='gdb -q'
 alias net='netstat -apnA inet'
 alias blog="cd ~/Desarrollo/algui91-hugo/"
-alias blogserve="hugo server -Dw --templateMetrics --log -t gohugo-amp"
+alias blogserve="HUGO_THEME=gohugo-amp hugo server -Dw --templateMetrics --log --navigateToChanged"
 
 # Some latex Aliases
 #alias xelatex='xelatex -shell-escape -output-directory=metafiles'
@@ -43,6 +43,7 @@ alias undrive='cd /tmp/; java -jar ~/Desarrollo/cryptomator/main/uber-jar/target
 alias dav="mount ~/dav"
 alias undav="umount ~/dav"
 alias dirs="dirs -v"
+alias reducepdf="gs -dNOPAUSE -dBATCH -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook"
 
 alias rd='rm -rfv'
 alias cp='cp -v'
@@ -85,5 +86,6 @@ export PATH=${PATH}:~/.gem/ruby/2.2.0/bin/
 
 export GREP_COLORS="mc=00;36:ms=31:mt=01;38"
 export TERM=xterm-256color
+export EDITOR="emacsclient"
 
 wmname LG3D

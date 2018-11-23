@@ -2,4 +2,4 @@
 
 # Search & remove in dir $1 with $2 regex and remove them
 
-find "$1" -iname "$2" -exec rm -rf '{}' \;
+find "$1" -iname "$2" -exec rm -rvf '{}' \;

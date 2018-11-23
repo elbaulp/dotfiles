@@ -82,14 +82,18 @@
 
 ;; Emacs Speaks Statistics
 (use-package ess
-  :ensure t)
+   :ensure t)
 (use-package polymode
+   :ensure t)
+(use-package poly-markdown
+  :ensure t)
+(use-package poly-R
   :ensure t)
 (setq ess-eval-visibly-p nil)
 
 ;; Aadd license to file headers
-(use-package lice
-  :ensure t)
+;(use-package lice
+;  :ensure t)
 
 ;; Polymode activations
 ;;; MARKDOWN
@@ -128,24 +132,41 @@
 (setq nord-uniform-mode-lines t)
 (setq nord-comment-brightness 20)
 (setq nord-region-highlight "frost")
-(load-theme 'nord t)
+;(load-theme 'nord t)
+(if (daemonp)
+    (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (select-frame frame)
+                (load-theme 'nord t)))
+  (load-theme 'nord t))
 
 
 ;;;;;;;;;;;;;;
 ;; Packages ;;
 ;;;;;;;;;;;;;;
 
+(use-package eldoc
+  :ensure t
+  :diminish eldoc-mode
+  :commands eldoc-mode)
+
+(use-package ox-hugo
+  :ensure t            ;Auto-install the package from Melpa (optional)
+  :after ox)
+
+
 (use-package org-bullets
   :ensure t
   :config (add-hook 'org-mode-hook 'org-bullets-mode))
-(add-hook 'org-mode-hook 'org-indent-mode)
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
 ;; CDLATEX
 ;(use-package auctex
 ;  :ensure t)
-(use-package cdlatex
-  :ensure t)
-(add-hook 'org-mode-hook 'turn-on-org-cdlatex)
+;;(use-package cdlatex
+;;  :ensure t)
+
+;;(add-hook 'org-mode-hook 'turn-on-org-cdlatex)
 
 (setq org-latex-create-formula-image-program 'imagemagick)
 
@@ -199,6 +220,7 @@
 (global-set-key (kbd "C-c i") (lambda () (interactive) (find-file  "~/.emacs.d/init.el")))
 
 
+
 (global-unset-key (kbd "C-x c"))
 
 ;; enable fuzzy matching
@@ -242,6 +264,7 @@
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
+(global-set-key (kbd "<f6>") 'org-capture)
 
 (use-package helm-descbinds
   :ensure t)
@@ -249,31 +272,10 @@
 
 (helm-mode 1)
 
-;; Key Chords
-(use-package key-chord
-  :ensure t)
-
-(key-chord-define-global "jj" 'avy-goto-word-1)
-(key-chord-define-global "jl" 'avy-goto-line)
-(key-chord-define-global "jk" 'avy-goto-char)
-(key-chord-define-global "JJ" 'crux-switch-to-previous-buffer)
-(key-chord-define-global "uu" 'undo-tree-visualize)
-(key-chord-define-global "xx" 'execute-extended-command)
-(key-chord-define-global "yy" 'browse-kill-ring)
-
-(defvar key-chord-tips '("Press <jj> quickly to jump to the beginning of a visible word."
-                         "Press <jl> quickly to jump to a visible line."
-                         "Press <jk> quickly to jump to a visible character."
-                         "Press <JJ> quickly to switch to previous buffer."
-                         "Press <uu> quickly to visualize the undo tree."
-                         "Press <xx> quickly to execute extended command."
-                         "Press <yy> quickly to browse the kill ring."))
-(key-chord-mode +1)
-
 ;; Personal
 (add-to-list 'exec-path "/usr/bin")
 
-(add-to-list 'load-path "~/.emacs.d/elpa/ess-17.11/lisp")
+(add-to-list 'load-path "~/.emacs.d/elpa/ess-18.10.2")
 (require 'ess-site)
 
 ;; Yasnippet
@@ -435,18 +437,23 @@
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(column-number-mode t)
+ '(custom-enabled-themes (quote (nord)))
  '(custom-safe-themes
    (quote
-    ("5ed520c86d0f75a51ddce1390db509132870e465f0a9dfe4f0d8fa67ba9024f9" "7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "43c1a8090ed19ab3c0b1490ce412f78f157d69a29828aa977dae941b994b4147" "9a155066ec746201156bb39f7518c1828a73d67742e11271e4f24b7b178c4710" "40da996f3246a3e99a2dff2c6b78e65307382f23db161b8316a5440b037eb72c" default)))
+    ("bf390ecb203806cbe351b966a88fc3036f3ff68cd2547db6ee3676e87327b311" "9240e71034689655a6c05c04063af2c90d0a831aa4e7ca24c8b6e29b5a2da946" "5ed520c86d0f75a51ddce1390db509132870e465f0a9dfe4f0d8fa67ba9024f9" "7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "43c1a8090ed19ab3c0b1490ce412f78f157d69a29828aa977dae941b994b4147" "9a155066ec746201156bb39f7518c1828a73d67742e11271e4f24b7b178c4710" "40da996f3246a3e99a2dff2c6b78e65307382f23db161b8316a5440b037eb72c" default)))
  '(display-time-24hr-format t)
  '(display-time-day-and-date nil)
  '(display-time-default-load-average nil)
  '(display-time-mode t)
  '(doc-view-continuous t)
+ '(ensime-eldoc-hints nil)
+ '(ensime-graphical-tooltips t)
+ '(ensime-implicit-gutter-icons t)
+ '(ensime-server-logback "/home/hkr/.sbt/0.13/plugins/logback.xml")
  '(ensime-startup-notification nil)
  '(ess-indent-with-fancy-comments nil)
  '(ess-tab-complete-in-script t)
- '(fill-column 110)
+ '(fill-column 70)
  '(global-hl-line-mode t)
  '(global-hl-line-sticky-flag nil)
  '(hl-sexp-background-color "#efebe9")
@@ -454,25 +461,84 @@
  '(linum-highlight-in-all-buffersp t)
  '(menu-bar f)
  '(menu-bar-mode nil)
+ '(org-agenda-custom-commands
+   (quote
+    (("n" "Agenda and all TODOs"
+      ((agenda "" nil)
+       (alltodo "" nil))
+      nil)
+     ("i" "Post to read"
+      ((tags "learning"
+             ((org-agenda-overriding-header "Learning")))
+       (todo "READ"
+             ((org-agenda-overriding-header "Pending posts"))))
+      nil nil))))
+ '(org-agenda-files (quote ("~/nextcloud/ORGS")))
  '(org-babel-load-languages (quote ((R . t))))
- '(org-export-backends (quote (ascii beamer html icalendar latex md)))
+ '(org-catch-invisible-edits (quote show-and-error))
+ '(org-export-backends (quote (ascii beamer html icalendar latex odt)))
  '(org-export-dispatch-use-expert-ui t)
  '(org-export-headline-levels 6)
+ '(org-export-in-background t)
  '(org-format-latex-options
    (quote
-    (:foreground default :background default :scale 2.0 :html-foreground "Black" :html-background "Transparent" :html-scale 2.0 :matchers
+    (:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 2.0 :matchers
                  ("begin" "$1" "$" "$$" "\\(" "\\["))))
+ '(org-hugo-auto-set-lastmod t)
+ '(org-hugo-default-section-directory "post")
  '(org-latex-listings (quote minted))
  '(org-latex-minted-options (quote (("mathescape" "true"))))
  '(org-latex-packages-alist (quote (("outputdir=metafiles" "minted" t))))
  '(org-latex-pdf-process
    (quote
-    ("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f" "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f")))
+    ("%latex -shell-escape -interaction nonstopmode -output-directory %o %f" "%bib %b" "%latex -shell-escape -interaction nonstopmode -output-directory %o %f" "%latex -shell-escape -interaction nonstopmode -output-directory %o %f")))
+ '(org-log-done (quote time))
+ '(org-log-into-drawer t)
+ '(org-log-reschedule (quote note))
+ '(org-pretty-entities t)
+ '(org-preview-latex-process-alist
+   (quote
+    ((dvipng :programs
+             ("latex" "dvipng")
+             :description "dvi > png" :message "you need to install the programs: latex and dvipng." :image-input-type "dvi" :image-output-type "png" :image-size-adjust
+             (1.0 . 1.0)
+             :latex-compiler
+             ("latex -interaction nonstopmode -output-directory %o %f")
+             :image-converter
+             ("dvipng -fg %F -bg %B -D %D -T tight -o %O %f"))
+     (dvisvgm :programs
+              ("latex" "dvisvgm")
+              :description "dvi > svg" :message "you need to install the programs: latex and dvisvgm." :use-xcolor t :image-input-type "dvi" :image-output-type "svg" :image-size-adjust
+              (1.7 . 1.5)
+              :latex-compiler
+              ("latex -interaction nonstopmode -output-directory %o %f")
+              :image-converter
+              ("dvisvgm %f -n -b min -c %S -o %O"))
+     (imagemagick :programs
+                  ("latex" "convert")
+                  :description "pdf > png" :message "you need to install the programs: latex and imagemagick." :use-xcolor t :image-input-type "pdf" :image-output-type "png" :image-size-adjust
+                  (1.0 . 1.0)
+                  :latex-compiler
+                  ("pdflatex -interaction nonstopmode -output-directory %o %f")
+                  :image-converter
+                  ("convert -density %D -trim -antialias %f -quality 100 %O")))))
  '(org-startup-truncated nil)
  '(org-startup-with-inline-images t)
+ '(org-tags-column -100)
  '(package-selected-packages
    (quote
-    (auctex cdlatex ox-latex pyimport rainbow-delimiters nord-theme lice yatemplate shut-up buttercup ess-rutils polymode leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+    (lice poly-markdown ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils polymode leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+ '(safe-local-variable-values
+   (quote
+    ((org-hugo-footer . "
+
+[//]: # \"Exported with love from a post written in Org mode\"
+[//]: # \"- https://github.com/kaushalmodi/ox-hugo\"")
+     (eval toggle-truncate-lines 1)
+     (eval add-hook
+           (quote after-save-hook)
+           (function org-hugo-export-wim-to-md-after-save)
+           :append :local))))
  '(save-place-mode t)
  '(size-indication-mode t)
  '(sml/no-confirm-load-theme t)

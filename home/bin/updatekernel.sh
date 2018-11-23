@@ -34,8 +34,8 @@ _main () {
     make -j4 modules_prepare
     emerge --ask @module-rebuild
     make -j4
-    make install
     make -j4 modules_install
+    make install
     echo "Please, update your EFI entry: cp /boot/vmlinuz-*-gentoo /boot/efi/boot/bootx64.efi"
 }
 
