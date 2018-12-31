@@ -479,7 +479,7 @@
  '(org-export-backends (quote (ascii beamer html icalendar latex odt)))
  '(org-export-dispatch-use-expert-ui t)
  '(org-export-headline-levels 6)
- '(org-export-in-background t)
+ '(org-export-in-background nil)
  '(org-format-latex-options
    (quote
     (:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 2.0 :matchers
@@ -491,7 +491,7 @@
  '(org-latex-packages-alist (quote (("outputdir=metafiles" "minted" t))))
  '(org-latex-pdf-process
    (quote
-    ("%latex -shell-escape -interaction nonstopmode -output-directory %o %f" "%bib %b" "%latex -shell-escape -interaction nonstopmode -output-directory %o %f" "%latex -shell-escape -interaction nonstopmode -output-directory %o %f")))
+    ("mkdir %o/metafiles" "%latex -shell-escape -interaction nonstopmode -output-directory %o/metafiles %f" "%bib %b" "%latex -shell-escape -interaction nonstopmode -output-directory %o/metafiles %f" "%latex -shell-escape -interaction nonstopmode -output-directory %o/metafiles %f")))
  '(org-log-done (quote time))
  '(org-log-into-drawer t)
  '(org-log-reschedule (quote note))
