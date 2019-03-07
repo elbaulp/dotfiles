@@ -53,6 +53,8 @@
 
 (add-hook 'python-mode-hook 'my/python-mode-hook)
 
+(setq jedi:environment-virtualenv (list (expand-file-name "~/.emacs.d/.python-environments/")))
+
 ;; Font size in 1/10pt, so 100 would be 10pt
 (set-face-attribute 'default nil :height 80)
 ;; Hightlight parenthesis
