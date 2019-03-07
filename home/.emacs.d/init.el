@@ -45,6 +45,13 @@
 
 (use-package pyimport
   :ensure t)
+(use-package company-jedi
+  :ensure t)
+
+(defun my/python-mode-hook ()
+  (add-to-list 'company-backends 'company-jedi))
+
+(add-hook 'python-mode-hook 'my/python-mode-hook)
 
 ;; Font size in 1/10pt, so 100 would be 10pt
 (set-face-attribute 'default nil :height 80)
