@@ -47,6 +47,7 @@
   :ensure t)
 
 (use-package company-jedi             ;;; company-mode completion back-end for Python JEDI
+  :ensure t
   :config
   (setq jedi:environment-virtualenv (list (expand-file-name "~/.emacs.d/.python-environments/")))
   (add-hook 'python-mode-hook 'jedi:setup)
