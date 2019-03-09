@@ -473,7 +473,7 @@
        (todo "READ"
              ((org-agenda-overriding-header "Pending posts"))))
       nil nil))))
- '(org-agenda-files (quote ("~/nextcloud/ORGS")))
+ '(org-agenda-files (quote ("~/Nextcloud/ORGS")))
  '(org-babel-load-languages (quote ((R . t))))
  '(org-catch-invisible-edits (quote show-and-error))
  '(org-export-backends (quote (ascii beamer html icalendar latex odt)))
