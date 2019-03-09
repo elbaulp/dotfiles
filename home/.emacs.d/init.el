@@ -46,6 +46,28 @@
 (use-package pyimport
   :ensure t)
 
+(use-package company-jedi             ;;; company-mode completion back-end for Python JEDI
+  :ensure t
+  ;:requires (emacs-epc emacs-deferred auto-complete emacs-python-environment)
+  :config
+  (setq jedi:environment-virtualenv (list (expand-file-name "~/.emacs.d/.python-environments/")))
+  (add-hook 'python-mode-hook 'jedi:setup)
+  (setq jedi:complete-on-dot t)
+  (setq jedi:use-shortcuts t)
+  (setq jedi:tooltip-method '(popup))
+  (defun config/enable-company-jedi ()
+    (add-to-list 'company-backends 'company-jedi))
+  (add-hook 'python-mode-hook 'config/enable-company-jedi)
+  (use-package epc
+    :ensure t)
+  (use-package deferred
+    :ensure t)
+  (use-package auto-complete
+    :ensure t)
+  (use-package python-environment
+    :ensure t))
+
+
 ;; Font size in 1/10pt, so 100 would be 10pt
 (set-face-attribute 'default nil :height 80)
 ;; Hightlight parenthesis
