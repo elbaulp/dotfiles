@@ -65,7 +65,8 @@
   (use-package auto-complete
     :ensure t)
   (use-package python-environment
-    :ensure t))
+    :ensure t)
+  )
 
 
 ;; Font size in 1/10pt, so 100 would be 10pt
@@ -103,15 +104,15 @@
       scroll-preserve-screen-position 1)
 
 ;; Emacs Speaks Statistics
-(use-package ess
-   :ensure t)
-(use-package polymode
-   :ensure t)
-(use-package poly-markdown
-  :ensure t)
-(use-package poly-R
-  :ensure t)
-(setq ess-eval-visibly-p nil)
+;; (use-package ess
+;;    :ensure t)
+;; (use-package polymode
+;;    :ensure t)
+;; (use-package poly-markdown
+;;   :ensure t)
+;; (use-package poly-R
+;;   :ensure t)
+;; (setq ess-eval-visibly-p nil)
 
 ;; Aadd license to file headers
 ;(use-package lice
@@ -119,9 +120,9 @@
 
 ;; Polymode activations
 ;;; MARKDOWN
-(add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))
+;(add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))
 ;;; R modes
-(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
+;(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
 
 
 ;; Color the status menu
@@ -204,8 +205,12 @@
   :demand
   :init   (setq projectile-use-git-grep t)
   :config (projectile-global-mode t)
-  :bind   (("s-f" . projectile-find-file)
-           ("s-F" . projectile-grep)))
+  :bind   (
+           ("s-F" . projectile-grep)
+           ("C-c p" . projectile-command-map)
+          )
+)
+
 (projectile-global-mode)
 (setq projectile-require-project-root nil)
 
@@ -549,7 +554,7 @@
  '(org-tags-column -100)
  '(package-selected-packages
    (quote
-    (lice poly-markdown ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils polymode leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+    (lice ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
  '(safe-local-variable-values
    (quote
     ((org-hugo-footer . "

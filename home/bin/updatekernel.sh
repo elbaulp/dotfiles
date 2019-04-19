@@ -15,7 +15,7 @@ readonly kernel_path='/usr/src/'
 
 _usage () {
     local script_name="$0"
-    echo "Usage: $0 <newkernelfolder>"
+    echo "Usage: $0 <newkernelfolder> <eselect number>"
 }
 
 _main () {
@@ -27,7 +27,7 @@ _main () {
     echo "Setting new kernel as default..."
     ln -sf /usr/src/"$1" /usr/src/linux
     cp /tmp/.config /usr/src/linux/
-    eselect kernel set 2
+    eselect kernel set $2
     cd /usr/src/linux/
     echo "Building..."
     make -j4 olddefconfig
@@ -40,9 +40,9 @@ _main () {
 }
 
 
-if [[ $# -eq 1 ]]
+if [[ $# -eq 2 ]]
 then
-    _main $1
+    _main $1 $2
 else
     _usage
 fi
