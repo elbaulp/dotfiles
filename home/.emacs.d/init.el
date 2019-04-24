@@ -363,8 +363,9 @@
   :commands magit-status magit-blame
   :init (setq
          magit-revert-buffers nil)
-  :bind (("s-g" . magit-status)
+  :bind (("C-x g" . magit-status)
          ("s-b" . magit-blame)))
+
 
 ;; Newlines in comments
 (defun scala-mode-newline-comments ()
@@ -486,6 +487,9 @@
  '(hl-sexp-background-color "#efebe9")
  '(linum-format " %3i ")
  '(linum-highlight-in-all-buffersp t)
+ '(magit-diff-arguments
+   (quote
+    ("--ignore-space-change" "--ignore-all-space" "--no-ext-diff" "--stat")))
  '(menu-bar f)
  '(menu-bar-mode nil)
  '(org-agenda-custom-commands
