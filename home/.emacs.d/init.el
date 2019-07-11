@@ -193,11 +193,6 @@
 
 (setq org-latex-create-formula-image-program 'imagemagick)
 
-;; Ensime stable
-(use-package ensime
-  :ensure t
-  :pin melpa-stable)
-
 ;; Projectile
 ;; http://batsov.com/projectile/
 (use-package projectile
@@ -450,7 +445,6 @@
             (yas-minor-mode)
             ;;            (git-gutter-mode)
             (company-mode)
-            (ensime-mode)
             ;;            (scala-mode:goto-start-of-code)
             ))
 
@@ -474,11 +468,6 @@
  '(display-time-default-load-average nil)
  '(display-time-mode t)
  '(doc-view-continuous t)
- '(ensime-eldoc-hints nil)
- '(ensime-graphical-tooltips t)
- '(ensime-implicit-gutter-icons t)
- '(ensime-server-logback "/home/hkr/.sbt/0.13/plugins/logback.xml")
- '(ensime-startup-notification nil)
  '(ess-indent-with-fancy-comments nil)
  '(ess-tab-complete-in-script t)
  '(fill-column 70)
