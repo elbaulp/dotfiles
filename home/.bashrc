@@ -139,3 +139,9 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 export EDITOR="emacsclient"
 export PRINTER="HP_LaserJet_Professional_M1217nfw_MFP"
 PATH="$PATH:/home/hkr/.conscript/bin"
+
+export USE_CCACHE=1
+export CCACHE_COMPRESS=1
+export ANDROID_JACK_VM_ARGS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx8G"
+export OUT_DIR=/run/media/hkr/BackUp/out
+export LC_ALL=C

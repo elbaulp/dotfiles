@@ -3,7 +3,7 @@
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 export DISPLAY=:0.0
 
-picsfolder="/home/hkr/ssd2/HD/"
+picsfolder="/home/hkr/HD/"
 cd $picsfolder
 
 files=(*.{jpg,png})
