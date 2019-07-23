@@ -310,10 +310,16 @@
   :hook (scala-mode . lsp)
   :config (setq lsp-prefer-flymake nil))
 
-(use-package lsp-ui)
+;; optionally
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package company-lsp :commands company-lsp)
+(use-package helm-lsp :commands helm-lsp-workspace-symbol)
+(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
 
 ;; Add company-lsp backend for metals
 (use-package company-lsp)
+
+(add-hook 'scala-mode-hook #'lsp)
 ;; Scala Metals end
 
 
@@ -418,7 +424,7 @@
  '(org-tags-column -100)
  '(package-selected-packages
    (quote
-    (material-theme material-light lsp-scala company-lsp lsp-ui lsp-mode lice ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+    (lsp-treemacs material-theme material-light lsp-scala company-lsp lsp-ui lsp-mode lice ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
  '(safe-local-variable-values
    (quote
     ((org-hugo-footer . "
