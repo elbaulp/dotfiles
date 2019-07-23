@@ -1,12 +1,11 @@
 ;; global variables
+;;; Code:
 (setq
  inhibit-startup-screen t
  create-lockfiles nil
  make-backup-files nil
  column-number-mode t
  scroll-error-top-bottom t
- show-paren-delay 0.5
- use-package-always-ensure t
  show-trailing-whitespace t
  sentence-end-double-space nil)
 (setenv "TZ" "Europe/Madrid")
@@ -43,38 +42,10 @@
   :commands rainbow-delimiters-mode
   :init (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
-(use-package pyimport
-  :ensure t)
-
-(use-package company-jedi             ;;; company-mode completion back-end for Python JEDI
-  :ensure t
-  ;:requires (emacs-epc emacs-deferred auto-complete emacs-python-environment)
-  :config
-  (setq jedi:environment-virtualenv (list (expand-file-name "~/.emacs.d/.python-environments/")))
-  (add-hook 'python-mode-hook 'jedi:setup)
-  (setq jedi:complete-on-dot t)
-  (setq jedi:use-shortcuts t)
-  (setq jedi:tooltip-method '(popup))
-  (defun config/enable-company-jedi ()
-    (add-to-list 'company-backends 'company-jedi))
-  (add-hook 'python-mode-hook 'config/enable-company-jedi)
-  (use-package epc
-    :ensure t)
-  (use-package deferred
-    :ensure t)
-  (use-package auto-complete
-    :ensure t)
-  (use-package python-environment
-    :ensure t)
-  )
-
-
 ;; Font size in 1/10pt, so 100 would be 10pt
 (set-face-attribute 'default nil :height 80)
 ;; Hightlight parenthesis
-(setq show-paren-delay 0)           ; how long to wait?
 (show-paren-mode t)                 ; turn paren-mode on
-(setq show-paren-style 'parenthesis) ; alternatives are 'parenthesis' and 'mixed'
 
 
 ;; Automatically reload changed files
@@ -83,11 +54,6 @@
 ;; Remove scrollbar
 (scroll-bar-mode -1)
 
-;; Enable flyspell
-(setq ispell-program-name "aspell" ; use aspell instead of ispell
-      ispell-extra-args '("--sug-mode=ultra"))
-
-(add-hook 'text-mode-hook 'flyspell-mode)
 
 ;; Clean whitespaces on save
 (add-hook 'before-save-hook 'whitespace-cleanup)
@@ -103,34 +69,9 @@
       scroll-conservatively 100000
       scroll-preserve-screen-position 1)
 
-;; Emacs Speaks Statistics
-;; (use-package ess
-;;    :ensure t)
-;; (use-package polymode
-;;    :ensure t)
-;; (use-package poly-markdown
-;;   :ensure t)
-;; (use-package poly-R
-;;   :ensure t)
-;; (setq ess-eval-visibly-p nil)
-
 ;; Aadd license to file headers
 ;(use-package lice
 ;  :ensure t)
-
-;; Polymode activations
-;;; MARKDOWN
-;(add-to-list 'auto-mode-alist '("\\.md" . poly-markdown-mode))
-;;; R modes
-;(add-to-list 'auto-mode-alist '("\\.Rmd" . poly-markdown+r-mode))
-
-
-;; Color the status menu
-;; (use-package smart-mode-line
-;;   :ensure t)
-;; (setq sml/no-confirm-load-theme t)
-;; (setq sml/theme 'dark)
-;; (add-hook 'after-init-hook #'sml/setup)
 
 ;; show the cursor when moving after big movements in the window
 (use-package beacon
@@ -142,32 +83,30 @@
   :ensure t)
 (hlinum-activate)
 ;; Show line numbers in margin
-;; (global-linum-mode t)
 ;; Hightlight current line
-;; Old color 2d2e3a
 (global-hl-line-mode)
 
 ;; Themes
 (use-package nord-theme
   :ensure t
   :pin melpa)
+(use-package material-theme
+  :ensure t
+  :pin melpa)
 
-(setq nord-uniform-mode-lines t)
-(setq nord-comment-brightness 20)
-(setq nord-region-highlight "frost")
+
 ;(load-theme 'nord t)
 (if (daemonp)
     (add-hook 'after-make-frame-functions
               (lambda (frame)
                 (select-frame frame)
-                (load-theme 'nord t)))
-  (load-theme 'nord t))
-
+                (load-theme 'material-light t)))
+  (load-theme 'material-light t))
+(load-theme 'material-light t)
 
 ;;;;;;;;;;;;;;
 ;; Packages ;;
 ;;;;;;;;;;;;;;
-
 (use-package eldoc
   :ensure t
   :diminish eldoc-mode
@@ -183,15 +122,8 @@
   :config (add-hook 'org-mode-hook 'org-bullets-mode))
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
-;; CDLATEX
-;(use-package auctex
-;  :ensure t)
-;;(use-package cdlatex
-;;  :ensure t)
 
-;;(add-hook 'org-mode-hook 'turn-on-org-cdlatex)
-
-(setq org-latex-create-formula-image-program 'imagemagick)
+(setq org-preview-latex-default-process 'imagemagick)
 
 ;; Projectile
 ;; http://batsov.com/projectile/
@@ -199,14 +131,13 @@
   :ensure t
   :demand
   :init   (setq projectile-use-git-grep t)
-  :config (projectile-global-mode t)
+  :config (projectile-mode t)
   :bind   (
            ("s-F" . projectile-grep)
            ("C-c p" . projectile-command-map)
           )
 )
 
-(projectile-global-mode)
 (setq projectile-require-project-root nil)
 
 ;; Undo-tree
@@ -242,26 +173,15 @@
 (global-set-key (kbd "C-c i") (lambda () (interactive) (find-file  "~/.emacs.d/init.el")))
 
 
-
 (global-unset-key (kbd "C-x c"))
-
-;; enable fuzzy matching
-(setq helm-buffers-fuzzy-matching t
-      helm-recentf-fuzzy-match    t)
-
 
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
 (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
 
-(when (executable-find "curl")
-  (setq helm-google-suggest-use-curl-p t))
-
-(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+(setq helm-split-window-inside-p            t ; open helm buffer inside current window, not occupy whole other window
       helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
-      helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
       helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
-      helm-ff-file-name-history-use-recentf t
       helm-echo-input-in-header-line t)
 
 (defun spacemacs//helm-hide-minibuffer-maybe ()
@@ -296,35 +216,14 @@
 
 ;; Personal
 (add-to-list 'exec-path "/usr/bin")
-
-(add-to-list 'load-path "~/.emacs.d/elpa/ess-18.10.2")
-(require 'ess-site)
+(add-to-list 'exec-path "/usr/local/bin" t)
 
 ;; Yasnippet
 (use-package yasnippet
   :diminish yas-minor-mode
   :commands yas-minor-mode
   :config (yas-reload-all))
-(yas-global-mode 1)
 
-(use-package company
-  :diminish company-mode
-  :commands company-mode
-  :ensure t
-  :init
-  (setq
-   company-dabbrev-ignore-case nil
-   company-dabbrev-code-ignore-case nil
-   company-dabbrev-downcase nil
-   company-idle-delay 0
-   company-minimum-prefix-length 4)
-  :config
-  ;; disables TAB in company-mode, freeing it for yasnippet
-  (define-key company-active-map [tab] nil)
-  (define-key company-active-map (kbd "TAB") nil)
-  :bind ("M-0" . company-yasnippet))
-
-(add-hook 'after-init-hook 'global-company-mode)
 
 ;; Hightlight Symbols
 (use-package highlight-symbol
@@ -352,30 +251,6 @@
   :commands popup-imenu
   :bind ("M-i" . popup-imenu))
 
-;; Git
-(use-package magit
-  :ensure t
-  :commands magit-status magit-blame
-  :init (setq
-         magit-revert-buffers nil)
-  :bind (("C-x g" . magit-status)
-         ("s-b" . magit-blame)))
-
-
-;; Newlines in comments
-(defun scala-mode-newline-comments ()
-  "Custom newline appropriate for `scala-mode'."
-  ;; shouldn't this be in a post-insert hook?
-  (interactive)
-  (newline-and-indent)
-  (scala-indent:insert-asterisk-on-multiline-comment))
-
-;; Multiline comments
-(setq comment-start "/* "
-      comment-end " */"
-      comment-style 'multi-line
-      comment-empty-lines t)
-
 ;; Smart Parentheses
 (use-package smartparens
   :diminish smartparens-mode
@@ -386,7 +261,6 @@
   sp-restrict-to-pairs-interactive
   sp-local-pair
   :init
-  (setq sp-interactive-dwim t)
   :config
   (require 'smartparens-config)
   (sp-use-smartparens-bindings)
@@ -406,47 +280,43 @@
 (require 'smartparens-config)
 (smartparens-global-mode)
 
-;; For scala Parenthesis Formatting
-(sp-local-pair 'scala-mode "(" nil :post-handlers '(("||\n[i]" "RET")))
-(sp-local-pair 'scala-mode "{" nil :post-handlers '(("||\n[i]" "RET") ("| " "SPC")))
 
-(defun sp-restrict-c (sym)
-  "Smartparens restriction on `SYM' for C-derived parenthesis."
-  (sp-restrict-to-pairs-interactive "{([" sym))
 
-(add-hook 'scala-mode-hook
-          (lambda ()
-            (bind-key "RET" 'scala-mode-newline-comments scala-mode-map)
-            ;; Force dabbrev
-            ;; Sometimes I just want a quick, simple, buffer-only
-            ;; completion of what I’m typing, bypassing company-mode and the
-            ;; server. This provides it
-            (bind-key "C-<tab>" 'dabbrev-expand scala-mode-map)
-            ;; Force dabbrev
-            ;; Sometimes I just want a quick, simple, buffer-only
-            ;; completion of what I’m typing, bypassing company-mode and the
-            ;; server. This provides it
-            (bind-key "C-<tab>" 'dabbrev-expand scala-mode-map)
+;; Scala Metals begin
+;; Enable defer and ensure by default for use-package
+(setq use-package-always-defer t
+      use-package-always-ensure t)
 
-            (bind-key "s-<delete>" (sp-restrict-c 'sp-kill-sexp) scala-mode-map)
-            (bind-key "s-<backspace>" (sp-restrict-c 'sp-backward-kill-sexp) scala-mode-map)
-            (bind-key "s-<home>" (sp-restrict-c 'sp-beginning-of-sexp) scala-mode-map)
-            (bind-key "s-<end>" (sp-restrict-c 'sp-end-of-sexp) scala-mode-map)
-            ;; Ever wanted to change a (_.thing) to a { foo => foo.thing } and back? This helps…
-            (bind-key "s-{" 'sp-rewrap-sexp smartparens-mode-map)
-            ;; Multi-line comments
-            (setq comment-start "/* "
-                  comment-end " */"
-                  comment-style 'multi-line
-                  comment-empty-lines t)
-            (setq show-trailing-whitespace t)
-            ;;            (show-paren-mode)
-            (smartparens-mode)
-            (yas-minor-mode)
-            ;;            (git-gutter-mode)
-            (company-mode)
-            ;;            (scala-mode:goto-start-of-code)
-            ))
+;; Enable scala-mode and sbt-mode
+(use-package scala-mode
+  :mode "\\.s\\(cala\\|bt\\)$")
+
+(use-package sbt-mode
+  :commands sbt-start sbt-command
+  :config
+  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
+  ;; allows using SPACE when in the minibuffer
+  (substitute-key-definition
+   'minibuffer-complete-word
+   'self-insert-command
+   minibuffer-local-completion-map))
+
+;; Enable nice rendering of diagnostics like compile errors.
+(use-package flycheck
+  :init (global-flycheck-mode))
+
+(use-package lsp-mode
+  ;; Optional - enable lsp-mode automatically in scala files
+  :hook (scala-mode . lsp)
+  :config (setq lsp-prefer-flymake nil))
+
+(use-package lsp-ui)
+
+;; Add company-lsp backend for metals
+(use-package company-lsp)
+;; Scala Metals end
+
+
 
 
 (custom-set-variables
@@ -459,10 +329,10 @@
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(column-number-mode t)
- '(custom-enabled-themes (quote (nord)))
+ '(custom-enabled-themes (quote (material-light)))
  '(custom-safe-themes
    (quote
-    ("bf390ecb203806cbe351b966a88fc3036f3ff68cd2547db6ee3676e87327b311" "9240e71034689655a6c05c04063af2c90d0a831aa4e7ca24c8b6e29b5a2da946" "5ed520c86d0f75a51ddce1390db509132870e465f0a9dfe4f0d8fa67ba9024f9" "7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "43c1a8090ed19ab3c0b1490ce412f78f157d69a29828aa977dae941b994b4147" "9a155066ec746201156bb39f7518c1828a73d67742e11271e4f24b7b178c4710" "40da996f3246a3e99a2dff2c6b78e65307382f23db161b8316a5440b037eb72c" default)))
+    ("82358261c32ebedfee2ca0f87299f74008a2e5ba5c502bde7aaa15db20ee3731" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" "bf390ecb203806cbe351b966a88fc3036f3ff68cd2547db6ee3676e87327b311" "9240e71034689655a6c05c04063af2c90d0a831aa4e7ca24c8b6e29b5a2da946" "5ed520c86d0f75a51ddce1390db509132870e465f0a9dfe4f0d8fa67ba9024f9" "7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "43c1a8090ed19ab3c0b1490ce412f78f157d69a29828aa977dae941b994b4147" "9a155066ec746201156bb39f7518c1828a73d67742e11271e4f24b7b178c4710" "40da996f3246a3e99a2dff2c6b78e65307382f23db161b8316a5440b037eb72c" default)))
  '(display-time-24hr-format t)
  '(display-time-day-and-date nil)
  '(display-time-default-load-average nil)
@@ -470,6 +340,7 @@
  '(doc-view-continuous t)
  '(ess-indent-with-fancy-comments nil)
  '(ess-tab-complete-in-script t)
+ '(fci-rule-color "#37474f")
  '(fill-column 70)
  '(global-hl-line-mode t)
  '(global-hl-line-sticky-flag nil)
@@ -547,7 +418,7 @@
  '(org-tags-column -100)
  '(package-selected-packages
    (quote
-    (lice ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+    (material-theme material-light lsp-scala company-lsp lsp-ui lsp-mode lice ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
  '(safe-local-variable-values
    (quote
     ((org-hugo-footer . "
@@ -563,7 +434,29 @@
  '(size-indication-mode t)
  '(sml/no-confirm-load-theme t)
  '(tool-bar-mode nil)
- '(user-full-name "Alejandro Alcalde"))
+ '(user-full-name "Alejandro Alcalde")
+ '(vc-annotate-background nil)
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#f36c60")
+     (40 . "#ff9800")
+     (60 . "#fff59d")
+     (80 . "#8bc34a")
+     (100 . "#81d4fa")
+     (120 . "#4dd0e1")
+     (140 . "#b39ddb")
+     (160 . "#f36c60")
+     (180 . "#ff9800")
+     (200 . "#fff59d")
+     (220 . "#8bc34a")
+     (240 . "#81d4fa")
+     (260 . "#4dd0e1")
+     (280 . "#b39ddb")
+     (300 . "#f36c60")
+     (320 . "#ff9800")
+     (340 . "#fff59d")
+     (360 . "#8bc34a"))))
+ '(vc-annotate-very-old-color nil))
 ;;(custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -579,3 +472,5 @@
  ;; If there is more than one, they won't work right.
  )
 (put 'set-goal-column 'disabled nil)
+(provide 'init)
+;;; init.el ends here

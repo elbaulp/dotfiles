@@ -138,7 +138,7 @@ export TERM=xterm-color
 export _JAVA_AWT_WM_NONREPARENTING=1
 export EDITOR="emacsclient"
 export PRINTER="HP_LaserJet_Professional_M1217nfw_MFP"
-PATH="$PATH:/home/hkr/.conscript/bin"
+PATH="$PATH:/home/hkr/.conscript/bin:~/.bloop"
 
 export USE_CCACHE=1
 export CCACHE_COMPRESS=1
