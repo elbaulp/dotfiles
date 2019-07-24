@@ -33,6 +33,19 @@
   (package-refresh-contents)
   (package-install 'use-package))
 (require 'use-package)
+;; Default configuration for use-package
+(require 'use-package-ensure)
+;; Automatically :ensure each use-package.
+(setq use-package-always-ensure t)
+;; Default value for :pin in each use-package.
+(setq use-package-always-pin "melpa")
+;; Auto update packages
+(use-package auto-package-update
+  :ensure t
+  :config
+  (setq auto-package-update-delete-old-versions t)
+  (setq auto-package-update-hide-results t)
+  (auto-package-update-maybe))
 
 ;;;;;;;;;;;;;;
 ;; UI stuff ;;
@@ -307,6 +320,7 @@
 
 (use-package lsp-mode
   ;; Optional - enable lsp-mode automatically in scala files
+  :pin melpa
   :hook (scala-mode . lsp)
   :config (setq lsp-prefer-flymake nil))
 
@@ -424,7 +438,7 @@
  '(org-tags-column -100)
  '(package-selected-packages
    (quote
-    (lsp-treemacs material-theme material-light lsp-scala company-lsp lsp-ui lsp-mode lice ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+    (auto-package-update lsp-treemacs material-theme material-light lsp-scala company-lsp lsp-ui lsp-mode lice ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
  '(safe-local-variable-values
    (quote
     ((org-hugo-footer . "
