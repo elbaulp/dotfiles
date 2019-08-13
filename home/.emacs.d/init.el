@@ -322,6 +322,7 @@
   ;; Optional - enable lsp-mode automatically in scala files
   :pin melpa
   :hook (scala-mode . lsp)
+  :hook (python-mode . lsp)
   :config (setq lsp-prefer-flymake nil))
 
 ;; optionally
@@ -336,6 +337,13 @@
 (add-hook 'scala-mode-hook #'lsp)
 ;; Scala Metals end
 
+;; Code formating using black for python
+(use-package blacken
+  :pin melpa
+  :init (add-hook 'python-mode-hook #'blacken-mode))
+(use-package anaconda-mode
+  :init (add-hook 'python-mode-hook #'anaconda-mode))
+
 
 
 
@@ -348,8 +356,11 @@
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
+ '(blacken-allow-py36 t)
+ '(blacken-executable
+   "C:\\Users\\aabarros\\Miniconda3\\envs\\bpo\\Scripts\\black.exe")
  '(column-number-mode t)
- '(custom-enabled-themes (quote (material-light)))
+ '(custom-enabled-themes (quote (material)))
  '(custom-safe-themes
    (quote
     ("82358261c32ebedfee2ca0f87299f74008a2e5ba5c502bde7aaa15db20ee3731" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" "bf390ecb203806cbe351b966a88fc3036f3ff68cd2547db6ee3676e87327b311" "9240e71034689655a6c05c04063af2c90d0a831aa4e7ca24c8b6e29b5a2da946" "5ed520c86d0f75a51ddce1390db509132870e465f0a9dfe4f0d8fa67ba9024f9" "7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "43c1a8090ed19ab3c0b1490ce412f78f157d69a29828aa977dae941b994b4147" "9a155066ec746201156bb39f7518c1828a73d67742e11271e4f24b7b178c4710" "40da996f3246a3e99a2dff2c6b78e65307382f23db161b8316a5440b037eb72c" default)))
@@ -396,7 +407,7 @@
     (:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 2.0 :matchers
                  ("begin" "$1" "$" "$$" "\\(" "\\["))))
  '(org-hugo-auto-set-lastmod t)
- '(org-hugo-default-section-directory "post")
+ '(org-hugo-section "post")
  '(org-latex-listings (quote minted))
  '(org-latex-minted-options (quote (("mathescape" "true"))))
  '(org-latex-packages-alist (quote (("outputdir=metafiles" "minted" t))))
@@ -438,7 +449,7 @@
  '(org-tags-column -100)
  '(package-selected-packages
    (quote
-    (auto-package-update lsp-treemacs material-theme material-light lsp-scala company-lsp lsp-ui lsp-mode lice ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+    (anaconda-mode blacken auto-package-update lsp-treemacs material-theme material-light lsp-scala company-lsp lsp-ui lsp-mode lice ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
  '(safe-local-variable-values
    (quote
     ((org-hugo-footer . "
