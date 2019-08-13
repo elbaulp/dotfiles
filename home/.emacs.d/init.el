@@ -120,6 +120,8 @@
 ;;;;;;;;;;;;;;
 ;; Packages ;;
 ;;;;;;;;;;;;;;
+(use-package magit)
+
 (use-package eldoc
   :ensure t
   :diminish eldoc-mode
