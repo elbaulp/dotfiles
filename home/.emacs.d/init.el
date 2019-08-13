@@ -293,6 +293,17 @@
 (require 'smartparens-config)
 (smartparens-global-mode)
 
+;; Code formating using black for python
+(use-package blacken
+  :pin melpa
+  :init (add-hook 'python-mode-hook #'blacken-mode))
+(use-package conda
+  :ensure t
+  :init
+  (setq conda-anaconda-home "C:/Users/aabarros/Miniconda3")
+  (setq conda-env-home-directory "C:/Users/aabarros/Miniconda3"))
+
+
 
 
 ;; Scala Metals begin
@@ -337,12 +348,6 @@
 (add-hook 'scala-mode-hook #'lsp)
 ;; Scala Metals end
 
-;; Code formating using black for python
-(use-package blacken
-  :pin melpa
-  :init (add-hook 'python-mode-hook #'blacken-mode))
-(use-package anaconda-mode
-  :init (add-hook 'python-mode-hook #'anaconda-mode))
 
 
 
@@ -360,6 +365,7 @@
  '(blacken-executable
    "C:\\Users\\aabarros\\Miniconda3\\envs\\bpo\\Scripts\\black.exe")
  '(column-number-mode t)
+ '(conda-anaconda-home "C:\\Users\\aabarros\\.conda")
  '(custom-enabled-themes (quote (material)))
  '(custom-safe-themes
    (quote
@@ -449,7 +455,7 @@
  '(org-tags-column -100)
  '(package-selected-packages
    (quote
-    (anaconda-mode blacken auto-package-update lsp-treemacs material-theme material-light lsp-scala company-lsp lsp-ui lsp-mode lice ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+    (conda pyenv-virtualenv pyvenv anaconda-mode blacken auto-package-update lsp-treemacs material-theme material-light lsp-scala company-lsp lsp-ui lsp-mode lice ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
  '(safe-local-variable-values
    (quote
     ((org-hugo-footer . "
