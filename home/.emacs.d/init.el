@@ -364,6 +364,7 @@
  '(blacken-allow-py36 t)
  '(blacken-executable
    "C:\\Users\\aabarros\\Miniconda3\\envs\\bpo\\Scripts\\black.exe")
+ '(blacken-line-length 88)
  '(column-number-mode t)
  '(conda-anaconda-home "C:\\Users\\aabarros\\.conda")
  '(custom-enabled-themes (quote (material)))
@@ -384,6 +385,7 @@
  '(hl-sexp-background-color "#efebe9")
  '(linum-format " %3i ")
  '(linum-highlight-in-all-buffersp t)
+ '(lsp-pyls-plugins-pycodestyle-max-line-length 88)
  '(lsp-pyls-plugins-pydocstyle-enabled t)
  '(magit-diff-arguments
    (quote
