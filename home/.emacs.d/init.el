@@ -153,13 +153,6 @@
 
 (setq projectile-require-project-root nil)
 
-;; Undo-tree
-(use-package undo-tree
-  :ensure t
-  :diminish undo-tree-mode
-  :config (global-undo-tree-mode)
-  :bind ("s-/" . undo-tree-visualize))
-
 ;; IBuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
@@ -172,7 +165,8 @@
 
 ;; helm
 (use-package helm
-  :ensure t)
+  :ensure t
+  :pin melpa-stable)
 (require 'helm-config)
 
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
@@ -301,7 +295,13 @@
   :ensure t
   :init
   (setq conda-anaconda-home "C:/Users/aabarros/Miniconda3")
-  (setq conda-env-home-directory "C:/Users/aabarros/Miniconda3"))
+  (setq conda-env-home-directory "C:/Users/aabarros/Miniconda3")
+  ;; if you want interactive shell support, include:
+  (conda-env-initialize-interactive-shells)
+  ;; if you want eshell support, include:
+  (conda-env-initialize-eshell)
+  (add-to-list 'exec-path "C:/Users/aabarros/Miniconda3/"))
+
 
 
 
@@ -384,6 +384,7 @@
  '(hl-sexp-background-color "#efebe9")
  '(linum-format " %3i ")
  '(linum-highlight-in-all-buffersp t)
+ '(lsp-pyls-plugins-pydocstyle-enabled t)
  '(magit-diff-arguments
    (quote
     ("--ignore-space-change" "--ignore-all-space" "--no-ext-diff" "--stat")))
@@ -455,7 +456,7 @@
  '(org-tags-column -100)
  '(package-selected-packages
    (quote
-    (conda pyenv-virtualenv pyvenv anaconda-mode blacken auto-package-update lsp-treemacs material-theme material-light lsp-scala company-lsp lsp-ui lsp-mode lice ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg undo-tree scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+    (conda pyenv-virtualenv pyvenv anaconda-mode blacken auto-package-update lsp-treemacs material-theme material-light lsp-scala company-lsp lsp-ui lsp-mode lice ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
  '(safe-local-variable-values
    (quote
     ((org-hugo-footer . "
