@@ -301,15 +301,13 @@
 (use-package conda
   :ensure t
   :init
-  (setq conda-anaconda-home "C:/Users/aabarros/Miniconda3")
-  (setq conda-env-home-directory "C:/Users/aabarros/Miniconda3")
+  (setq conda-anaconda-home "/home/hkr/ssd2/miniconda")
+  (setq conda-env-home-directory "/home/hkr/ssd2/miniconda")
   ;; if you want interactive shell support, include:
   (conda-env-initialize-interactive-shells)
   ;; if you want eshell support, include:
   (conda-env-initialize-eshell)
-  (add-to-list 'exec-path "C:/Users/aabarros/Miniconda3/"))
-
-
+  (add-to-list 'exec-path "/home/hkr/ssd2/miniconda"))
 
 
 
@@ -369,8 +367,7 @@
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(blacken-allow-py36 t)
- '(blacken-executable
-   "C:\\Users\\aabarros\\Miniconda3\\envs\\bpo\\Scripts\\black.exe")
+ '(blacken-executable "black")
  '(blacken-line-length 88)
  '(column-number-mode t)
  '(conda-anaconda-home "C:\\Users\\aabarros\\.conda")
