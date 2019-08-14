@@ -120,7 +120,12 @@
 ;;;;;;;;;;;;;;
 ;; Packages ;;
 ;;;;;;;;;;;;;;
-(use-package magit)
+(use-package magit
+  :config
+  ; Disable built in vc integration in emacs
+  (setq vc-handled-backends nil)
+  (global-set-key (kbd "C-x g") 'magit-status)
+  (global-set-key (kbd "C-x M-g") 'magit-dispatch))
 
 (use-package eldoc
   :ensure t
