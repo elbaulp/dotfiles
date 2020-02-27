@@ -78,6 +78,9 @@
                                         ;(use-package lice
                                         ;  :ensure t)
 
+(use-package haskell-mode
+  :straight t)
+
 ;; show the cursor when moving after big movements in the window
 (use-package beacon
   :straight t)
@@ -355,6 +358,9 @@
  '(fill-column 70)
  '(global-hl-line-mode t)
  '(global-hl-line-sticky-flag nil)
+ '(haskell-mode-hook
+   (quote
+    (flyspell-prog-mode haskell-indentation-mode highlight-uses-mode imenu-add-menubar-index interactive-haskell-mode turn-on-haskell-unicode-input-method)))
  '(hl-sexp-background-color "#efebe9")
  '(linum-format " %3i ")
  '(linum-highlight-in-all-buffersp t)
