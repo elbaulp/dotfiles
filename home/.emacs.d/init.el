@@ -10,6 +10,7 @@
  sentence-end-double-space nil)
 (setenv "TZ" "Europe/Madrid")
 
+
 ;; buffer local variables
 (setq-default
  indent-tabs-mode nil
@@ -19,44 +20,35 @@
 ;; global keybindings
 (global-unset-key (kbd "C-z"))
 
-;; the package manager
-(require 'package)
-(setq
- package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
-                    ("org" . "http://orgmode.org/elpa/")
-                    ("melpa" . "http://melpa.org/packages/")
-                    ("melpa-stable" . "http://stable.melpa.org/packages/"))
- package-archive-priorities '(("melpa-stable" . 1)))
 
-(package-initialize)
-(when (not package-archive-contents)
-  (package-refresh-contents)
-  (package-install 'use-package))
-(require 'use-package)
-;; Default configuration for use-package
-(require 'use-package-ensure)
-;; Automatically :ensure each use-package.
-(setq use-package-always-ensure t)
-;; Default value for :pin in each use-package.
-(setq use-package-always-pin "melpa")
-;; Auto update packages
-(use-package auto-package-update
-  :ensure t
-  :config
-  (setq auto-package-update-delete-old-versions t)
-  (setq auto-package-update-hide-results t)
-  (auto-package-update-maybe))
+;; Straight package manager
+
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+(straight-use-package 'use-package)
+(setq straight-use-package-by-default t)
+
 
 ;;;;;;;;;;;;;;
 ;; UI stuff ;;
 ;;;;;;;;;;;;;;
 (use-package rainbow-delimiters
-  :ensure t
   :commands rainbow-delimiters-mode
   :init (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 ;; Font size in 1/10pt, so 100 would be 10pt
-(set-face-attribute 'default nil :height 80)
+(set-face-attribute 'default nil :height 100)
 ;; Hightlight parenthesis
 (show-paren-mode t)                 ; turn paren-mode on
 
@@ -83,32 +75,27 @@
       scroll-preserve-screen-position 1)
 
 ;; Aadd license to file headers
-;(use-package lice
-;  :ensure t)
+                                        ;(use-package lice
+                                        ;  :ensure t)
 
 ;; show the cursor when moving after big movements in the window
 (use-package beacon
-  :ensure t)
+  :straight t)
 (beacon-mode +1)
 
 ;; Hightlight current line
-(use-package hlinum
-  :ensure t)
+(use-package hlinum)
 (hlinum-activate)
 ;; Show line numbers in margin
 ;; Hightlight current line
 (global-hl-line-mode)
 
 ;; Themes
-(use-package nord-theme
-  :ensure t
-  :pin melpa)
-(use-package material-theme
-  :ensure t
-  :pin melpa)
+(use-package nord-theme)
+(use-package material-theme)
 
 
-;(load-theme 'nord t)
+                                        ;(load-theme 'nord t)
 (if (daemonp)
     (add-hook 'after-make-frame-functions
               (lambda (frame)
@@ -125,22 +112,20 @@
          ("C-c M-g" . magit-dispatch)
          ("C-x g" . magit-status))
   :config
-  ; Disable built in vc integration in emacs
+                                        ; Disable built in vc integration in emacs
   (setq vc-handled-backends nil))
 
+(use-package poetry)
 
 (use-package eldoc
-  :ensure t
   :diminish eldoc-mode
   :commands eldoc-mode)
 
 (use-package ox-hugo
-  :ensure t            ;Auto-install the package from Melpa (optional)
   :after ox)
 
 
 (use-package org-bullets
-  :ensure t
   :config (add-hook 'org-mode-hook 'org-bullets-mode))
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
 
@@ -150,15 +135,14 @@
 ;; Projectile
 ;; http://batsov.com/projectile/
 (use-package projectile
-  :ensure t
   :demand
   :init   (setq projectile-use-git-grep t)
   :config (projectile-mode t)
   :bind   (
            ("s-F" . projectile-grep)
            ("C-c p" . projectile-command-map)
-          )
-)
+           )
+  )
 
 (setq projectile-require-project-root nil)
 
@@ -166,16 +150,14 @@
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; Which-key
-(use-package which-key
-  :ensure t)
+(use-package which-key)
+
 (which-key-mode)
 (which-key-setup-side-window-right-bottom)
 
 
 ;; helm
-(use-package helm
-  :ensure t
-  :pin melpa-stable)
+(use-package helm)
 (require 'helm-config)
 
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
@@ -224,8 +206,7 @@
 (global-set-key "\C-cb" 'org-iswitchb)
 (global-set-key (kbd "<f6>") 'org-capture)
 
-(use-package helm-descbinds
-  :ensure t)
+(use-package helm-descbinds)
 (helm-descbinds-mode)
 
 (helm-mode 1)
@@ -243,7 +224,6 @@
 
 ;; Hightlight Symbols
 (use-package highlight-symbol
-  :ensure t
   :diminish highlight-symbol-mode
   :commands highlight-symbol
   :bind ("M-6" . highlight-symbol)
@@ -253,7 +233,6 @@
 
 ;; Goto last change
 (use-package goto-chg
-  :ensure t
   :commands goto-last-change
   ;; complementary to
   ;; C-x r m / C-x r l
@@ -263,14 +242,12 @@
 
 ;; Popup Summary
 (use-package popup-imenu
-  :ensure t
   :commands popup-imenu
   :bind ("M-i" . popup-imenu))
 
 ;; Smart Parentheses
 (use-package smartparens
   :diminish smartparens-mode
-  :ensure t
   :commands
   smartparens-strict-mode
   smartparens-mode
@@ -285,7 +262,6 @@
   (sp-pair "[" "]" :wrap "s-[") ;; C-[ sends ESC
   (sp-pair "{" "}" :wrap "C-{")
 
-
   ;; WORKAROUND https://github.com/Fuco1/smartparens/issues/543
   (bind-key "C-<left>" nil smartparens-mode-map)
   (bind-key "C-<right>" nil smartparens-mode-map)
@@ -296,28 +272,16 @@
 (require 'smartparens-config)
 (smartparens-global-mode)
 
-;; Code formating using black for python
+;; Python config
 (use-package blacken
-  :pin melpa
-  :init (add-hook 'python-mode-hook #'blacken-mode))
-(use-package conda
-  :ensure t
-  :init
-  (setq conda-anaconda-home "/home/hkr/ssd2/miniconda")
-  (setq conda-env-home-directory "/home/hkr/ssd2/miniconda")
-  ;; if you want interactive shell support, include:
-  (conda-env-initialize-interactive-shells)
-  ;; if you want eshell support, include:
-  (conda-env-initialize-eshell)
-  (add-to-list 'exec-path "/home/hkr/ssd2/miniconda"))
+  :hook (python-mode . blacken-mode)
+  :config
+  (setq blacken-line-length '88))
 
+;; End python config
 
 
 ;; Scala Metals begin
-;; Enable defer and ensure by default for use-package
-(setq use-package-always-defer t
-      use-package-always-ensure t)
-
 ;; Enable scala-mode and sbt-mode
 (use-package scala-mode
   :mode "\\.s\\(cala\\|bt\\)$")
@@ -338,10 +302,15 @@
 
 (use-package lsp-mode
   ;; Optional - enable lsp-mode automatically in scala files
-  :pin melpa
-  :hook (scala-mode . lsp)
-  :hook (python-mode . lsp)
-  :config (setq lsp-prefer-flymake nil))
+  :init (setq lsp-keymap-prefix "s-l")
+  :hook (
+         (scala-mode . lsp)
+         (python-mode . lsp))
+  :config
+  (setq lsp-prefer-flymake nil)
+
+  :commands lsp)
+
 
 ;; optionally
 (use-package lsp-ui :commands lsp-ui-mode)
@@ -366,11 +335,8 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(blacken-allow-py36 t)
  '(blacken-executable "black")
- '(blacken-line-length 88)
  '(column-number-mode t)
  '(conda-anaconda-home "C:\\Users\\aabarros\\.conda")
  '(custom-enabled-themes (quote (material)))
@@ -384,6 +350,7 @@
  '(doc-view-continuous t)
  '(ess-indent-with-fancy-comments nil)
  '(ess-tab-complete-in-script t)
+ '(explicit-shell-file-name "/bin/zsh")
  '(fci-rule-color "#37474f")
  '(fill-column 70)
  '(global-hl-line-mode t)
@@ -396,6 +363,9 @@
  '(magit-diff-arguments
    (quote
     ("--ignore-space-change" "--ignore-all-space" "--no-ext-diff" "--stat")))
+ '(magit-section-visibility-indicator
+   (quote
+    (magit-fringe-bitmap-bold> . magit-fringe-bitmap-boldv)))
  '(menu-bar f)
  '(menu-bar-mode nil)
  '(org-agenda-custom-commands
@@ -464,7 +434,7 @@
  '(org-tags-column -100)
  '(package-selected-packages
    (quote
-    (conda pyenv-virtualenv pyvenv anaconda-mode blacken auto-package-update lsp-treemacs material-theme material-light lsp-scala company-lsp lsp-ui lsp-mode lice ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+    (yaml-mode pyenv-mode python-docstring py-docformatter py-autoflake py-isort pyenv dockerfile-mode kotlin-mode conda pyenv-virtualenv pyvenv anaconda-mode blacken auto-package-update lsp-treemacs material-theme material-light lsp-scala company-lsp lsp-ui lsp-mode lice ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
  '(safe-local-variable-values
    (quote
     ((org-hugo-footer . "
@@ -504,19 +474,19 @@
      (360 . "#8bc34a"))))
  '(vc-annotate-very-old-color nil))
 ;;(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- ;;'(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 83 :width normal :foundry "PfEd" :family "Source Code Pro"))))
- ;;'(hl-line ((t (:background "dim gray" :underline nil))))
+;; custom-set-faces was added by Custom.
+;; If you edit it by hand, you could mess it up, so be careful.
+;; Your init file should contain only one such instance.
+;; If there is more than one, they won't work right.
+;;'(default ((t (:inherit nil :stipple nil :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 83 :width normal :foundry "PfEd" :family "Source Code Pro"))))
+;;'(hl-line ((t (:background "dim gray" :underline nil))))
 ;; )
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(term-color-white ((t (:background "#263238" :foreground "light green")))))
 (put 'set-goal-column 'disabled nil)
 (provide 'init)
 ;;; init.el ends here
