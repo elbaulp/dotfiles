@@ -143,18 +143,3 @@ PATH="$PATH:/home/hkr/.conscript/bin:~/.bloop"
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/hkr/ssd2/miniconda/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/hkr/ssd2/miniconda/etc/profile.d/conda.sh" ]; then
-        . "/home/hkr/ssd2/miniconda/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/hkr/ssd2/miniconda/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
