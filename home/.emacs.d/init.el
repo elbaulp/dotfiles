@@ -81,6 +81,15 @@
 (use-package haskell-mode
   :straight t)
 
+(add-hook 'haskell-mode-hook
+          (lambda ()
+            (set (make-local-variable 'company-backends)
+                 (append '((company-capf company-dabbrev-code))
+                         company-backends))))
+
+(add-hook 'haskell-mode-hook (cua-selection-mode nil))
+
+
 ;; show the cursor when moving after big movements in the window
 (use-package beacon
   :straight t)
@@ -342,6 +351,7 @@
  '(blacken-executable "black")
  '(column-number-mode t)
  '(conda-anaconda-home "C:\\Users\\aabarros\\.conda")
+ '(cua-enable-cua-keys (quote shift))
  '(custom-enabled-themes (quote (material)))
  '(custom-safe-themes
    (quote
@@ -360,7 +370,17 @@
  '(global-hl-line-sticky-flag nil)
  '(haskell-mode-hook
    (quote
-    (flyspell-prog-mode haskell-indentation-mode highlight-uses-mode imenu-add-menubar-index interactive-haskell-mode turn-on-haskell-unicode-input-method)))
+    (turn-on-haskell-unicode-input-method
+     (lambda nil
+       (set
+        (make-local-variable
+         (quote company-backends))
+        (append
+         (quote
+          ((company-capf company-dabbrev-code)))
+         company-backends)))
+     flyspell-prog-mode haskell-indentation-mode highlight-uses-mode imenu-add-menubar-index interactive-haskell-mode turn-on-haskell-unicode-input-method)))
+ '(haskell-stylish-on-save t)
  '(hl-sexp-background-color "#efebe9")
  '(linum-format " %3i ")
  '(linum-highlight-in-all-buffersp t)
