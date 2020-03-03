@@ -114,12 +114,14 @@
 (use-package lsp-ui
   :commands lsp-ui-mode
   :straight t)
-(use-package company-lsp
-  :commands company-lsp
-  :config
-  (push 'company-lsp company-backends)
-  :straight t)
+;; (use-package company-lsp
+;;   :commands company-lsp
+;;   :config
+;;   (push 'company-lsp company-backends)
+;;   :straight t)
 (use-package company
+  :straight t)
+(use-package flymake
   :straight t)
 (add-hook 'after-init-hook 'global-company-mode)
 ;; if you are helm user
@@ -166,11 +168,7 @@
 
   :straight t)
 
-(add-hook 'haskell-mode-hook
-          (lambda ()
-            (set (make-local-variable 'company-backends)
-                 (append '((company-capf company-dabbrev-code))
-                         company-backends))))
+
 ;;;;;;;;;;;;;;;;;
 ;; END HASKELL ;;
 ;;;;;;;;;;;;;;;;;
@@ -369,6 +367,11 @@
  '(blacken-allow-py36 t)
  '(blacken-executable "black")
  '(column-number-mode t)
+ '(company-backends
+   (quote
+    (company-bbdb company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
+                  (company-dabbrev-code company-gtags company-etags company-keywords)
+                  company-oddmuse company-dabbrev company-dabbrev-code company-capf)))
  '(conda-anaconda-home "C:\\Users\\aabarros\\.conda")
  '(cua-enable-cua-keys (quote shift))
  '(custom-enabled-themes (quote (material)))
