@@ -155,7 +155,7 @@
     '(define-key interactive-haskell-mode-map (kbd "M-.") 'haskell-mode-goto-loc))
   (eval-after-load "haskell-mode"
     '(define-key interactive-haskell-mode-map (kbd "C-c C-t") 'haskell-mode-show-type-at))
-  (eval-after-load "which-func"
+  (eval-after-load "which-function"
     '(add-to-list 'which-func-modes 'haskell-mode))
 
   (eval-after-load "haskell-mode"
@@ -164,7 +164,6 @@
   (eval-after-load "haskell-cabal"
     '(define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-compile))
 
-
   :straight t)
 
 (add-hook 'haskell-mode-hook
@@ -172,7 +171,9 @@
             (set (make-local-variable 'company-backends)
                  (append '((company-capf company-dabbrev-code))
                          company-backends))))
-
+;;;;;;;;;;;;;;;;;
+;; END HASKELL ;;
+;;;;;;;;;;;;;;;;;
 
 
 ;;;;;;;;;;;;;;
@@ -184,7 +185,8 @@
          ("C-x g" . magit-status))
   :config
                                         ; Disable built in vc integration in emacs
-  (setq vc-handled-backends nil))
+  (setq vc-handled-backends nil)
+  :straight t)
 
 (use-package eldoc
   :diminish eldoc-mode
