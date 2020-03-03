@@ -48,7 +48,7 @@
   :init (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 ;; Font size in 1/10pt, so 100 would be 10pt
-(set-face-attribute 'default nil :height 100)
+(set-face-attribute 'default nil :height 80)
 ;; Hightlight parenthesis
 (show-paren-mode t)                 ; turn paren-mode on
 
@@ -58,7 +58,6 @@
 
 ;; Remove scrollbar
 (scroll-bar-mode -1)
-
 
 ;; Clean whitespaces on save
 (add-hook 'before-save-hook 'whitespace-cleanup)
@@ -73,22 +72,6 @@
 (setq scroll-margin 0
       scroll-conservatively 100000
       scroll-preserve-screen-position 1)
-
-;; Aadd license to file headers
-                                        ;(use-package lice
-                                        ;  :ensure t)
-
-(use-package haskell-mode
-  :straight t)
-
-(add-hook 'haskell-mode-hook
-          (lambda ()
-            (set (make-local-variable 'company-backends)
-                 (append '((company-capf company-dabbrev-code))
-                         company-backends))))
-
-(add-hook 'haskell-mode-hook (cua-selection-mode nil))
-
 
 ;; show the cursor when moving after big movements in the window
 (use-package beacon
@@ -106,7 +89,6 @@
 (use-package nord-theme)
 (use-package material-theme)
 
-
                                         ;(load-theme 'nord t)
 (if (daemonp)
     (add-hook 'after-make-frame-functions
@@ -115,6 +97,83 @@
                 (load-theme 'material-light t)))
   (load-theme 'material-light t))
 (load-theme 'material-light t)
+
+
+;;;;;;;;;;;;;;;
+;; EMACS-LSP ;;
+;;;;;;;;;;;;;;;
+(use-package lsp-mode
+  :init (setq lsp-keymap-prefix "C-c v")
+  :hook (
+         (python-mode . lsp)
+         (lsp-mode . lsp-enable-which-key-integration)
+         )
+  :commands lsp
+  :straight t)
+;; optionally
+(use-package lsp-ui
+  :commands lsp-ui-mode
+  :straight t)
+(use-package company-lsp
+  :commands company-lsp
+  :config
+  (push 'company-lsp company-backends)
+  :straight t)
+(use-package company
+  :straight t)
+(add-hook 'after-init-hook 'global-company-mode)
+;; if you are helm user
+(use-package helm-lsp
+  :commands helm-lsp-workspace-symbol
+  :straight t)
+
+;;;;;;;;;;;;;
+;; HASKELL ;;
+;;;;;;;;;;;;;
+(use-package haskell-mode
+  :init
+  (require 'haskell-interactive-mode)
+  (require 'haskell-process)
+  (cua-selection-mode nil)
+
+  :config
+  (interactive-haskell-mode)
+  (define-key haskell-mode-map (kbd "<f8>") 'haskell-navigate-imports)
+  (define-key haskell-mode-map (kbd "C-c C-l") 'haskell-process-load-or-reload)
+  (define-key haskell-mode-map (kbd "C-`") 'haskell-interactive-bring)
+  (define-key haskell-mode-map (kbd "C-c C-t") 'haskell-process-do-type)
+  (define-key haskell-mode-map (kbd "C-c C-i") 'haskell-process-do-info)
+  (define-key haskell-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
+  (define-key haskell-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
+  (define-key haskell-mode-map (kbd "C-c c") 'haskell-process-cabal)
+  (define-key haskell-cabal-mode-map (kbd "C-`") 'haskell-interactive-bring)
+  (define-key haskell-cabal-mode-map (kbd "C-c C-k") 'haskell-interactive-mode-clear)
+  (define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
+  (define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)
+
+  (eval-after-load "haskell-mode"
+    '(define-key interactive-haskell-mode-map (kbd "M-.") 'haskell-mode-goto-loc))
+  (eval-after-load "haskell-mode"
+    '(define-key interactive-haskell-mode-map (kbd "C-c C-t") 'haskell-mode-show-type-at))
+  (eval-after-load "which-func"
+    '(add-to-list 'which-func-modes 'haskell-mode))
+
+  (eval-after-load "haskell-mode"
+    '(define-key haskell-mode-map (kbd "C-c C-c") 'haskell-compile))
+
+  (eval-after-load "haskell-cabal"
+    '(define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-compile))
+
+
+  :straight t)
+
+(add-hook 'haskell-mode-hook
+          (lambda ()
+            (set (make-local-variable 'company-backends)
+                 (append '((company-capf company-dabbrev-code))
+                         company-backends))))
+
+
 
 ;;;;;;;;;;;;;;
 ;; Packages ;;
@@ -126,8 +185,6 @@
   :config
                                         ; Disable built in vc integration in emacs
   (setq vc-handled-backends nil))
-
-(use-package poetry)
 
 (use-package eldoc
   :diminish eldoc-mode
@@ -162,11 +219,12 @@
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; Which-key
-(use-package which-key)
-
-(which-key-mode)
-(which-key-setup-side-window-right-bottom)
-
+(use-package which-key
+  :straight t
+  :config
+  (which-key-mode)
+  (which-key-setup-side-window-right-bottom)
+  )
 
 ;; helm
 (use-package helm)
@@ -284,62 +342,21 @@
 (require 'smartparens-config)
 (smartparens-global-mode)
 
-;; Python config
+;;;;;;;;;;;;;;;;;;;
+;; PYTHON CONFIG ;;
+;;;;;;;;;;;;;;;;;;;
 (use-package blacken
   :hook (python-mode . blacken-mode)
   :config
   (setq blacken-line-length '88))
-
-;; End python config
-
-
-;; Scala Metals begin
-;; Enable scala-mode and sbt-mode
-(use-package scala-mode
-  :mode "\\.s\\(cala\\|bt\\)$")
-
-(use-package sbt-mode
-  :commands sbt-start sbt-command
-  :config
-  ;; WORKAROUND: https://github.com/ensime/emacs-sbt-mode/issues/31
-  ;; allows using SPACE when in the minibuffer
-  (substitute-key-definition
-   'minibuffer-complete-word
-   'self-insert-command
-   minibuffer-local-completion-map))
-
-;; Enable nice rendering of diagnostics like compile errors.
-(use-package flycheck
-  :init (global-flycheck-mode))
-
-(use-package lsp-mode
-  ;; Optional - enable lsp-mode automatically in scala files
-  :init (setq lsp-keymap-prefix "s-l")
-  :hook (
-         (scala-mode . lsp)
-         (python-mode . lsp))
-  :config
-  (setq lsp-prefer-flymake nil)
-
-  :commands lsp)
+;;;;;;;;;;;;;;;;;;;;;;;
+;; END PYTHON CONFIG ;;
+;;;;;;;;;;;;;;;;;;;;;;;
 
 
-;; optionally
-(use-package lsp-ui :commands lsp-ui-mode)
-(use-package company-lsp :commands company-lsp)
-(use-package helm-lsp :commands helm-lsp-workspace-symbol)
-(use-package lsp-treemacs :commands lsp-treemacs-errors-list)
-
-;; Add company-lsp backend for metals
-(use-package company-lsp)
-
-(add-hook 'scala-mode-hook #'lsp)
-;; Scala Metals end
-
-
-
-
-
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Automatically generated    ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -370,16 +387,10 @@
  '(global-hl-line-sticky-flag nil)
  '(haskell-mode-hook
    (quote
-    (turn-on-haskell-unicode-input-method
-     (lambda nil
-       (set
-        (make-local-variable
-         (quote company-backends))
-        (append
-         (quote
-          ((company-capf company-dabbrev-code)))
-         company-backends)))
-     flyspell-prog-mode haskell-indentation-mode highlight-uses-mode imenu-add-menubar-index interactive-haskell-mode turn-on-haskell-unicode-input-method)))
+    (flyspell-prog-mode haskell-decl-scan-mode haskell-indent-mode imenu-add-menubar-index interactive-haskell-mode turn-on-haskell-unicode-input-method haskell-auto-insert-module-template)))
+ '(haskell-process-auto-import-loaded-modules t)
+ '(haskell-process-log t)
+ '(haskell-process-suggest-remove-import-lines t)
  '(haskell-stylish-on-save t)
  '(hl-sexp-background-color "#efebe9")
  '(linum-format " %3i ")
@@ -460,7 +471,7 @@
  '(org-tags-column -100)
  '(package-selected-packages
    (quote
-    (yaml-mode pyenv-mode python-docstring py-docformatter py-autoflake py-isort pyenv dockerfile-mode kotlin-mode conda pyenv-virtualenv pyvenv anaconda-mode blacken auto-package-update lsp-treemacs material-theme material-light lsp-scala company-lsp lsp-ui lsp-mode lice ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg scala-mode which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+    (yaml-mode pyenv-mode python-docstring py-docformatter py-autoflake py-isort pyenv dockerfile-mode kotlin-mode conda pyenv-virtualenv pyvenv anaconda-mode blacken auto-package-update lsp-treemacs material-theme material-light company-lsp ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
  '(safe-local-variable-values
    (quote
     ((org-hugo-footer . "
