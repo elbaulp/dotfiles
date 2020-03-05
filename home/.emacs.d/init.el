@@ -103,22 +103,17 @@
 ;; EMACS-LSP ;;
 ;;;;;;;;;;;;;;;
 (use-package lsp-mode
-  :init (setq lsp-keymap-prefix "C-c v")
   :hook (
          (python-mode . lsp)
          (lsp-mode . lsp-enable-which-key-integration)
          )
   :commands lsp
   :straight t)
+
 ;; optionally
 (use-package lsp-ui
   :commands lsp-ui-mode
   :straight t)
-;; (use-package company-lsp
-;;   :commands company-lsp
-;;   :config
-;;   (push 'company-lsp company-backends)
-;;   :straight t)
 (use-package company
   :straight t)
 (use-package flymake
@@ -128,6 +123,10 @@
 (use-package helm-lsp
   :commands helm-lsp-workspace-symbol
   :straight t)
+
+(setq lsp-prefer-capf t)
+(setq company-capf t)
+(setq lsp-keymap-prefix "C-c v")
 
 ;;;;;;;;;;;;;
 ;; HASKELL ;;
@@ -153,6 +152,7 @@
   (define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-process-cabal-build)
   (define-key haskell-cabal-mode-map (kbd "C-c c") 'haskell-process-cabal)
 
+  (define-key haskell-mode-map (kbd "M-SPC") 'company-complete)
   (eval-after-load "haskell-mode"
     '(define-key interactive-haskell-mode-map (kbd "M-.") 'haskell-mode-goto-loc))
   (eval-after-load "haskell-mode"
@@ -166,7 +166,9 @@
   (eval-after-load "haskell-cabal"
     '(define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-compile))
 
+
   :straight t)
+
 
 
 ;;;;;;;;;;;;;;;;;
@@ -392,7 +394,7 @@
  '(global-hl-line-sticky-flag nil)
  '(haskell-mode-hook
    (quote
-    (flyspell-prog-mode haskell-decl-scan-mode haskell-indent-mode imenu-add-menubar-index interactive-haskell-mode turn-on-haskell-unicode-input-method haskell-auto-insert-module-template)))
+    (flyspell-prog-mode haskell-decl-scan-mode haskell-indent-mode imenu-add-menubar-index interactive-haskell-mode haskell-auto-insert-module-template)))
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
  '(haskell-process-suggest-remove-import-lines t)
@@ -400,6 +402,7 @@
  '(hl-sexp-background-color "#efebe9")
  '(linum-format " %3i ")
  '(linum-highlight-in-all-buffersp t)
+ '(lsp-keymap-prefix "C-c v")
  '(lsp-pyls-plugins-pycodestyle-max-line-length 88)
  '(lsp-pyls-plugins-pydocstyle-enabled t)
  '(magit-diff-arguments
