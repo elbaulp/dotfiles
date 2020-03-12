@@ -394,7 +394,7 @@
  '(global-hl-line-sticky-flag nil)
  '(haskell-mode-hook
    (quote
-    (flyspell-prog-mode haskell-decl-scan-mode haskell-indent-mode imenu-add-menubar-index interactive-haskell-mode haskell-auto-insert-module-template)))
+    (flyspell-prog-mode haskell-decl-scan-mode haskell-indentation-mode imenu-add-menubar-index interactive-haskell-mode haskell-auto-insert-module-template)))
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
  '(haskell-process-suggest-remove-import-lines t)
@@ -402,7 +402,7 @@
  '(hl-sexp-background-color "#efebe9")
  '(linum-format " %3i ")
  '(linum-highlight-in-all-buffersp t)
- '(lsp-keymap-prefix "C-c v")
+ '(lsp-keymap-prefix "C-c v" t)
  '(lsp-pyls-plugins-pycodestyle-max-line-length 88)
  '(lsp-pyls-plugins-pydocstyle-enabled t)
  '(magit-diff-arguments
