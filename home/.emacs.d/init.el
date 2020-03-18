@@ -175,6 +175,16 @@
 ;; END HASKELL ;;
 ;;;;;;;;;;;;;;;;;
 
+;;;;;;;;;;;;
+;; DOCKER ;;
+;;;;;;;;;;;;
+(use-package dockerfile-mode
+  :straight t)
+(add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
+(use-package docker
+  :straight t
+  :bind ("C-c d" . docker))
+
 
 ;;;;;;;;;;;;;;
 ;; Packages ;;
