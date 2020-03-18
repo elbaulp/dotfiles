@@ -139,6 +139,7 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 export EDITOR="emacsclient"
 export PRINTER="HP_LaserJet_Professional_M1217nfw_MFP"
 PATH="$PATH:/home/hkr/.conscript/bin:~/.bloop"
+PATH="$PATH:$HOME/.poetry/bin:$HOME/.local/bin"
 
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
