@@ -103,21 +103,21 @@
 ;; EMACS-LSP ;;
 ;;;;;;;;;;;;;;;
 (use-package lsp-mode
-  :hook (
-         (python-mode . lsp)
-         (lsp-mode . lsp-enable-which-key-integration)
-         )
+  :hook
+  (python-mode . lsp)
+  (lsp-mode . lsp-enable-which-key-integration)
   :commands lsp
   :straight t)
-
+(add-hook 'python-mode-hook #'lsp)
 ;; optionally
 (use-package lsp-ui
   :commands lsp-ui-mode
   :straight t)
 (use-package company
   :straight t)
-(use-package flymake
-  :straight t)
+(use-package flycheck
+  :straight t
+  :init (global-flycheck-mode))
 (add-hook 'after-init-hook 'global-company-mode)
 ;; if you are helm user
 (use-package helm-lsp
@@ -361,11 +361,10 @@
 ;; PYTHON CONFIG ;;
 ;;;;;;;;;;;;;;;;;;;
 (use-package blacken
-  :hook (python-mode . blacken-mode)
+  :hook
+  (python-mode . blacken-mode)
   :config
   (setq blacken-line-length '88))
-(use-package pyvenv
-  :straight t)
 
 (use-package py-isort
     :straight (:host github :repo "paetzke/py-isort.el")
@@ -373,6 +372,12 @@
     :config
     (add-hook 'before-save-hook 'py-isort-before-save)
     (setq py-isort-options '("--lines=88" "-m=3" "-tc" "-fgw=0" "-ca")))
+
+(use-package lsp-python-ms
+  :straight t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-python-ms)
+                          (lsp))))  ; or lsp-deferred
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; END PYTHON CONFIG ;;
@@ -397,7 +402,6 @@
     (company-bbdb company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
                   (company-dabbrev-code company-gtags company-etags company-keywords)
                   company-oddmuse company-dabbrev company-dabbrev-code company-capf)))
- '(conda-anaconda-home "C:\\Users\\aabarros\\.conda")
  '(cua-enable-cua-keys (quote shift))
  '(custom-enabled-themes (quote (material)))
  '(custom-safe-themes
@@ -504,7 +508,7 @@
  '(org-tags-column -100)
  '(package-selected-packages
    (quote
-    (yaml-mode pyenv-mode python-docstring py-docformatter py-autoflake py-isort pyenv dockerfile-mode kotlin-mode conda pyenv-virtualenv pyvenv anaconda-mode blacken auto-package-update lsp-treemacs material-theme material-light company-lsp ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+    (yaml-mode python-docstring py-docformatter py-autoflake py-isort dockerfile-mode kotlin-mode conda blacken auto-package-update lsp-treemacs material-theme material-light company-lsp ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
  '(safe-local-variable-values
    (quote
     ((dockerfile-image-name . "spark-locak")
