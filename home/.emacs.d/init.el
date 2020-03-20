@@ -48,7 +48,7 @@
   :init (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 ;; Font size in 1/10pt, so 100 would be 10pt
-(set-face-attribute 'default nil :height 80)
+(set-face-attribute 'default nil :height 100)
 ;; Hightlight parenthesis
 (show-paren-mode t)                 ; turn paren-mode on
 
@@ -123,6 +123,9 @@
 (use-package helm-lsp
   :commands helm-lsp-workspace-symbol
   :straight t)
+
+(setq company-minimum-prefix-length 1
+      company-idle-delay 0.0) ;; default is 0.2
 
 (setq lsp-prefer-capf t)
 (setq company-capf t)
@@ -361,6 +364,16 @@
   :hook (python-mode . blacken-mode)
   :config
   (setq blacken-line-length '88))
+(use-package pyvenv
+  :straight t)
+
+(use-package py-isort
+    :straight (:host github :repo "paetzke/py-isort.el")
+    :hook (python-mode . py-isort-enable-on-save)
+    :config
+    (add-hook 'before-save-hook 'py-isort-before-save)
+    (setq py-isort-options '("--lines=88" "-m=3" "-tc" "-fgw=0" "-ca")))
+
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; END PYTHON CONFIG ;;
 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -412,7 +425,9 @@
  '(hl-sexp-background-color "#efebe9")
  '(linum-format " %3i ")
  '(linum-highlight-in-all-buffersp t)
- '(lsp-keymap-prefix "C-c v" t)
+ '(lsp-clients-python-library-directories (quote ("/usr/")))
+ '(lsp-keymap-prefix "C-c v")
+ '(lsp-pyls-configuration-sources ["pycodestyle"])
  '(lsp-pyls-plugins-pycodestyle-max-line-length 88)
  '(lsp-pyls-plugins-pydocstyle-enabled t)
  '(magit-diff-arguments
@@ -492,7 +507,9 @@
     (yaml-mode pyenv-mode python-docstring py-docformatter py-autoflake py-isort pyenv dockerfile-mode kotlin-mode conda pyenv-virtualenv pyvenv anaconda-mode blacken auto-package-update lsp-treemacs material-theme material-light company-lsp ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
  '(safe-local-variable-values
    (quote
-    ((org-hugo-footer . "
+    ((dockerfile-image-name . "spark-locak")
+     (dockerfile-image-name . "local-image-spark")
+     (org-hugo-footer . "
 
 [//]: # \"Exported with love from a post written in Org mode\"
 [//]: # \"- https://github.com/kaushalmodi/ox-hugo\"")
