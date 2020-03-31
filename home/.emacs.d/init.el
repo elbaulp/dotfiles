@@ -8,7 +8,7 @@
  scroll-error-top-bottom t
  show-trailing-whitespace t
  sentence-end-double-space nil)
-(setenv "TZ" "Europe/Madrid")
+(setenv "TZ" "Europe/Berlin")
 
 
 ;; buffer local variables
@@ -22,7 +22,6 @@
 
 
 ;; Straight package manager
-
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -39,34 +38,19 @@
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
-
 ;;;;;;;;;;;;;;
 ;; UI stuff ;;
 ;;;;;;;;;;;;;;
 (use-package rainbow-delimiters
+  :straight t
   :commands rainbow-delimiters-mode
   :init (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 ;; Font size in 1/10pt, so 100 would be 10pt
 (set-face-attribute 'default nil :height 100)
-;; Hightlight parenthesis
-(show-paren-mode t)                 ; turn paren-mode on
-
-
-;; Automatically reload changed files
-(global-auto-revert-mode t)
-
-;; Remove scrollbar
-(scroll-bar-mode -1)
-
-;; Clean whitespaces on save
-(add-hook 'before-save-hook 'whitespace-cleanup)
 
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
-
-;; the blinking cursor is nothing, but an annoyance
-(blink-cursor-mode -1)
 
 ;; nice scrolling
 (setq scroll-margin 0
@@ -79,17 +63,14 @@
 (beacon-mode +1)
 
 ;; Hightlight current line
-(use-package hlinum)
-(hlinum-activate)
-;; Show line numbers in margin
-;; Hightlight current line
-(global-hl-line-mode)
+(use-package hlinum
+  :hook (hlinum-activate global-hl-line-mode)
+  :straight t)
 
 ;; Themes
 (use-package nord-theme)
 (use-package material-theme)
 
-                                        ;(load-theme 'nord t)
 (if (daemonp)
     (add-hook 'after-make-frame-functions
               (lambda (frame)
@@ -113,12 +94,13 @@
 (use-package lsp-ui
   :commands lsp-ui-mode
   :straight t)
-(use-package company
-  :straight t)
+(use-package company-lsp
+  :straight t
+  :commands company-lsp)
 (use-package flycheck
   :straight t
   :init (global-flycheck-mode))
-(add-hook 'after-init-hook 'global-company-mode)
+;(add-hook 'after-init-hook 'global-company-mode)
 ;; if you are helm user
 (use-package helm-lsp
   :commands helm-lsp-workspace-symbol
@@ -128,7 +110,7 @@
       company-idle-delay 0.0) ;; default is 0.2
 
 (setq lsp-prefer-capf t)
-(setq company-capf t)
+;(setq company-capf t)
 (setq lsp-keymap-prefix "C-c v")
 
 ;;;;;;;;;;;;;
@@ -242,7 +224,8 @@
   )
 
 ;; helm
-(use-package helm)
+(use-package helm
+  :straight t)
 (require 'helm-config)
 
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
@@ -300,13 +283,6 @@
 (add-to-list 'exec-path "/usr/bin")
 (add-to-list 'exec-path "/usr/local/bin" t)
 
-;; Yasnippet
-(use-package yasnippet
-  :diminish yas-minor-mode
-  :commands yas-minor-mode
-  :config (yas-reload-all))
-
-
 ;; Hightlight Symbols
 (use-package highlight-symbol
   :diminish highlight-symbol-mode
@@ -361,14 +337,18 @@
 ;; PYTHON CONFIG ;;
 ;;;;;;;;;;;;;;;;;;;
 (use-package blacken
-  :hook
-  (python-mode . blacken-mode)
+  :straight t
+  :hook (python-mode . blacken-mode)
   :config
   (setq blacken-line-length '88))
 
+(use-package pyvenv
+  :hook python-mode
+  :straight t)
+
 (use-package py-isort
     :straight (:host github :repo "paetzke/py-isort.el")
-    :hook (python-mode . py-isort-enable-on-save)
+;;    :hook (python-mode . py-isort-enable-on-save)
     :config
     (add-hook 'before-save-hook 'py-isort-before-save)
     (setq py-isort-options '("--lines=88" "-m=3" "-tc" "-fgw=0" "-ca")))
@@ -384,6 +364,27 @@
 ;;;;;;;;;;;;;;;;;;;;;;;
 
 
+;;;;;;;;;;;
+;; HOOKS ;;
+;;;;;;;;;;;
+;; Clean whitespaces on save
+(add-hook 'before-save-hook 'whitespace-cleanup)
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; ENABLE DESIRED MODES ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; Hightlight parenthesis
+(show-paren-mode t)
+;; Automatically reload changed files
+(global-auto-revert-mode t)
+;; Remove scrollbar
+(scroll-bar-mode -1)
+;; the blinking cursor is nothing, but an annoyance
+(blink-cursor-mode -1)
+
+
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Automatically generated    ;;
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -394,14 +395,12 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
- '(blacken-allow-py36 t)
- '(blacken-executable "black")
  '(column-number-mode t)
- '(company-backends
-   (quote
-    (company-bbdb company-eclim company-semantic company-clang company-xcode company-cmake company-capf company-files
-                  (company-dabbrev-code company-gtags company-etags company-keywords)
-                  company-oddmuse company-dabbrev company-dabbrev-code company-capf)))
+ ;; '(company-backends
+   ;; (quote
+    ;; (company-capf company-bbdb company-eclim company-semantic company-clang company-xcode company-cmake company-files
+                  ;; (company-dabbrev-code company-gtags company-etags company-keywords)
+                  ;; company-oddmuse company-dabbrev company-dabbrev-code company-capf)))
  '(cua-enable-cua-keys (quote shift))
  '(custom-enabled-themes (quote (material)))
  '(custom-safe-themes
@@ -412,8 +411,6 @@
  '(display-time-default-load-average nil)
  '(display-time-mode t)
  '(doc-view-continuous t)
- '(ess-indent-with-fancy-comments nil)
- '(ess-tab-complete-in-script t)
  '(explicit-shell-file-name "/bin/zsh")
  '(fci-rule-color "#37474f")
  '(fill-column 70)
@@ -430,6 +427,7 @@
  '(linum-format " %3i ")
  '(linum-highlight-in-all-buffersp t)
  '(lsp-clients-python-library-directories (quote ("/usr/")))
+ '(lsp-enable-completion-at-point t)
  '(lsp-keymap-prefix "C-c v")
  '(lsp-pyls-configuration-sources ["pycodestyle"])
  '(lsp-pyls-plugins-pycodestyle-max-line-length 88)
@@ -508,7 +506,7 @@
  '(org-tags-column -100)
  '(package-selected-packages
    (quote
-    (yaml-mode python-docstring py-docformatter py-autoflake py-isort dockerfile-mode kotlin-mode conda blacken auto-package-update lsp-treemacs material-theme material-light company-lsp ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg which-key helm-descbinds yasnippet smartparens auto-org-md company helm-projectile use-package)))
+    (yaml-mode python-docstring py-docformatter py-autoflake py-isort dockerfile-mode kotlin-mode auto-package-update lsp-treemacs material-theme material-light company-lsp ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg which-key helm-descbinds yasnippet smartparens auto-org-md helm-projectile use-package)))
  '(safe-local-variable-values
    (quote
     ((dockerfile-image-name . "spark-locak")
