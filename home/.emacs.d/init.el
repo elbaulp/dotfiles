@@ -87,7 +87,7 @@
   :hook
   (python-mode . lsp)
   (lsp-mode . lsp-enable-which-key-integration)
-  :commands lsp
+  :commands lsp-deferred
   :straight t)
 (add-hook 'python-mode-hook #'lsp)
 ;; optionally
@@ -237,6 +237,8 @@
 (global-set-key (kbd "C-c h o") 'helm-occur)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 (global-set-key (kbd "C-c i") (lambda () (interactive) (find-file  "~/.emacs.d/init.el")))
+(global-unset-key (kbd "C-c C-j"))
+(global-set-key (kbd "C-c C-j") 'helm-imenu)
 
 
 (global-unset-key (kbd "C-x c"))
@@ -342,22 +344,21 @@
   :config
   (setq blacken-line-length '88))
 
-(use-package pyvenv
-  :hook python-mode
-  :straight t)
-
-(use-package py-isort
-    :straight (:host github :repo "paetzke/py-isort.el")
-;;    :hook (python-mode . py-isort-enable-on-save)
-    :config
-    (add-hook 'before-save-hook 'py-isort-before-save)
-    (setq py-isort-options '("--lines=88" "-m=3" "-tc" "-fgw=0" "-ca")))
 
 (use-package lsp-python-ms
   :straight t
   :hook (python-mode . (lambda ()
                           (require 'lsp-python-ms)
                           (lsp))))  ; or lsp-deferred
+
+(add-hook 'python-mode-hook #'lsp)
+
+
+(use-package py-isort
+    :straight (:host github :repo "paetzke/py-isort.el")
+    :config
+    (add-hook 'before-save-hook 'py-isort-before-save)
+    (setq py-isort-options '("--lines=88" "-m=3" "-tc" "-fgw=0" "-ca")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; END PYTHON CONFIG ;;
@@ -396,11 +397,6 @@
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(column-number-mode t)
- ;; '(company-backends
-   ;; (quote
-    ;; (company-capf company-bbdb company-eclim company-semantic company-clang company-xcode company-cmake company-files
-                  ;; (company-dabbrev-code company-gtags company-etags company-keywords)
-                  ;; company-oddmuse company-dabbrev company-dabbrev-code company-capf)))
  '(cua-enable-cua-keys (quote shift))
  '(custom-enabled-themes (quote (material)))
  '(custom-safe-themes
@@ -426,7 +422,6 @@
  '(hl-sexp-background-color "#efebe9")
  '(linum-format " %3i ")
  '(linum-highlight-in-all-buffersp t)
- '(lsp-clients-python-library-directories (quote ("/usr/")))
  '(lsp-enable-completion-at-point t)
  '(lsp-keymap-prefix "C-c v")
  '(lsp-pyls-configuration-sources ["pycodestyle"])
