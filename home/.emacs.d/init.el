@@ -86,6 +86,7 @@
 (use-package lsp-mode
   :hook
   (python-mode . lsp)
+  (dockerfile-mode . lsp)
   (lsp-mode . lsp-enable-which-key-integration)
   :commands lsp-deferred
   :straight t)
