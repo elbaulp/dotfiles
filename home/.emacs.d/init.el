@@ -226,6 +226,9 @@
 
 ;; helm
 (use-package helm
+  :config
+  (global-unset-key (kbd "C-c C-j"))
+  (global-unset-key (kbd "C-x c"))
   :straight t)
 (require 'helm-config)
 
@@ -238,11 +241,9 @@
 (global-set-key (kbd "C-c h o") 'helm-occur)
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 (global-set-key (kbd "C-c i") (lambda () (interactive) (find-file  "~/.emacs.d/init.el")))
-(global-unset-key (kbd "C-c C-j"))
 (global-set-key (kbd "C-c C-j") 'helm-imenu)
 
 
-(global-unset-key (kbd "C-x c"))
 
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
