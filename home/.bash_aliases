@@ -72,10 +72,6 @@ source ~/.fonts/fontawesome-regular.sh
 
 USER='Alejandro Alcalde'
 
-RBW_PATH=$HOME/.rainbow-bash
-source $RBW_PATH/init.sh
-rbw_load_theme simple
-
 export PATH=${PATH}:~/bin
 export PATH=${PATH}:/home/hkr/bin/texlive/bin/x86_64-linux
 export PATH=${PATH}:/opt/cisco/anyconnect/bin/

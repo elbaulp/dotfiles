@@ -81,7 +81,7 @@ export BASH_IT="/home/hkr/.bash_it"
 
 # Lock and Load a custom theme file
 # location /.bash_it/themes/
-export BASH_IT_THEME="kitsune"
+export BASH_IT_THEME="barbuk"
 
 # (Advanced): Change this to the name of your remote repo if you
 # cloned bash-it with a remote other than origin such as `bash-it`.
