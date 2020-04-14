@@ -82,13 +82,18 @@
 ;; Multiple cursors
 (use-package multiple-cursors
   :config
-  (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+  (global-set-key (kbd "C-S-m C-S-m") 'mc/edit-lines)
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-  (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
-  (global-set-key (kbd "C-S-c <") 'mc/edit-beginnings-of-lines)
-  (global-set-key (kbd "C-S-c >") 'mc/edit-ends-of-lines)
-
+  (global-set-key (kbd "C-S-w >") 'mc/mark-next-like-this-word)
+  (global-set-key (kbd "C-S-w <") 'mc/mark-previous-like-this-word)
+  (global-set-key (kbd "C-S-w *") 'mc/mark-all-words-like-this)
+  (global-set-key (kbd "C-S-s >") 'mc/mark-next-like-this-symbol)
+  (global-set-key (kbd "C-S-s <") 'mc/mark-previous-like-this-symbol)
+  (global-set-key (kbd "C-S-s *") 'mc/mark-all-symbol-like-this)
+  (global-set-key (kbd "C-S-c *") 'mc/mark-all-like-this)
+  (global-set-key (kbd "C-S-l <") 'mc/edit-beginnings-of-lines)
+  (global-set-key (kbd "C-S-l >") 'mc/edit-ends-of-lines)
 
   :straight t)
 
