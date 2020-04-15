@@ -94,6 +94,7 @@
   (global-set-key (kbd "C-S-c *") 'mc/mark-all-like-this)
   (global-set-key (kbd "C-S-l <") 'mc/edit-beginnings-of-lines)
   (global-set-key (kbd "C-S-l >") 'mc/edit-ends-of-lines)
+  (global-set-key (kbd "C-S-m *") 'mc/mark-all-dwim)
 
   :straight t)
 
