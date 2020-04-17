@@ -140,7 +140,10 @@ export EDITOR="emacsclient"
 export PRINTER="HP_LaserJet_Professional_M1217nfw_MFP"
 PATH="$PATH:/home/hkr/.conscript/bin:~/.bloop"
 PATH="$PATH:$HOME/.poetry/bin:$HOME/.local/bin"
-
+PATH="$PATH:$HOME/.pyenv/bin"
+if command -v pyenv 1>/dev/null 2>&1; then
+	eval "$(pyenv init -)"
+fi
 export LC_ALL=C.UTF-8
 export LANG=C.UTF-8
 
