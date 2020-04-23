@@ -101,6 +101,13 @@
   :straight t)
 
 
+;;;;;;;;;;;;
+;; KOTLIN ;;
+;;;;;;;;;;;;
+(use-package kotlin-mode
+  :straight t)
+
+
 ;;;;;;;;;;;;;;;
 ;; EMACS-LSP ;;
 ;;;;;;;;;;;;;;;
