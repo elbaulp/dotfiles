@@ -112,13 +112,12 @@
 ;; EMACS-LSP ;;
 ;;;;;;;;;;;;;;;
 (use-package lsp-mode
-  :hook
-  (python-mode . lsp)
-  (dockerfile-mode . lsp)
-  (lsp-mode . lsp-enable-which-key-integration)
+  :hook ((lsp-mode . lsp-enable-which-key-integration))
   :commands lsp-deferred
   :straight t)
 (add-hook 'python-mode-hook #'lsp)
+(add-hook 'kotlin-mode-hook #'lsp)
+(add-hook 'dockerfile-mode-hook #'lsp)
 ;; optionally
 (use-package lsp-ui
   :commands lsp-ui-mode
