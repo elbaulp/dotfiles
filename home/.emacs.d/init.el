@@ -41,6 +41,7 @@
 ;;;;;;;;;;;;;;
 ;; UI stuff ;;
 ;;;;;;;;;;;;;;
+(desktop-save-mode 1)
 (use-package rainbow-delimiters
   :straight t
   :commands rainbow-delimiters-mode
