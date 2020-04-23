@@ -96,6 +96,7 @@
   (global-set-key (kbd "C-S-l <") 'mc/edit-beginnings-of-lines)
   (global-set-key (kbd "C-S-l >") 'mc/edit-ends-of-lines)
   (global-set-key (kbd "C-S-m *") 'mc/mark-all-dwim)
+  (global-set-key (kbd "C-S-r s") 'mc/sort-regions)
 
   :straight t)
 
