@@ -100,24 +100,31 @@
 
   :straight t)
 
-
 ;;;;;;;;;;;;
 ;; KOTLIN ;;
 ;;;;;;;;;;;;
 (use-package kotlin-mode
   :straight t)
 
+;;;;;;;;;;
+;; YAML ;;
+;;;;;;;;;;
+(use-package yaml-mode
+  :straight (:host github :repo "yoshiki/yaml-mode")
+)
 
 ;;;;;;;;;;;;;;;
 ;; EMACS-LSP ;;
 ;;;;;;;;;;;;;;;
 (use-package lsp-mode
   :hook ((lsp-mode . lsp-enable-which-key-integration))
-  :commands lsp-deferred
+  :commands lsp
   :straight t)
 (add-hook 'python-mode-hook #'lsp)
 (add-hook 'kotlin-mode-hook #'lsp)
 (add-hook 'dockerfile-mode-hook #'lsp)
+(add-hook 'yaml-mode-hook #'lsp)
+
 ;; optionally
 (use-package lsp-ui
   :commands lsp-ui-mode
@@ -196,12 +203,39 @@
 (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode))
 (use-package docker
   :straight t
-  :bind ("C-c d" . docker))
+  :bind (("C-c d" . docker)))
 
 
 ;;;;;;;;;;;;;;
 ;; Packages ;;
 ;;;;;;;;;;;;;;
+
+
+;;;;;;;;;;;;;;
+;; org-roam ;;
+;;;;;;;;;;;;;;
+(use-package org-roam
+  :straight t
+  :init
+  (setq org-roam-capture-templates
+        '(
+          ("e" "Experiment" plain (function org-roam--capture-get-point)
+           "%?"
+           :file-name "%<%Y%m%d%H%M%S>-${slug}exp"
+           :head "#+TITLE: ${title}\n#+TAGS:"
+           :unnarrowed t)
+          ))
+  :hook
+  (after-init . org-roam-mode)
+  :custom
+  (org-roam-directory "~/org-roam")
+  :bind (:map org-roam-mode-map
+              (("C-c n l" . org-roam)
+               ("C-c n f" . org-roam-find-file)
+               ("C-c n g" . org-roam-show-graph))
+              :map org-mode-map
+              (("C-c n i" . org-roam-insert))))
+
 (use-package magit
   :bind (("C-c g" . magit-file-dispatch)
          ("C-c M-g" . magit-dispatch)
@@ -393,6 +427,10 @@
 ;; END PYTHON CONFIG ;;
 ;;;;;;;;;;;;;;;;;;;;;;;
 
+(use-package htmlize
+    :straight (:host github :repo "hniksic/emacs-htmlize"))
+
+
 
 ;;;;;;;;;;;
 ;; HOOKS ;;
@@ -478,6 +516,13 @@
       nil nil))))
  '(org-agenda-files (quote ("~/Nextcloud/ORGS")))
  '(org-babel-load-languages (quote ((R . t))))
+ '(org-capture-templates
+   (quote
+    (("e" "Experiment" plain
+      (function org-roam--capture-get-point)
+      "Exp %?" :unnarrowed t :org-roam
+      (:head "#+TITLE: ${title}
+" :file-name "%<%Y%m%d%H%M%S>-${slug}exp")))))
  '(org-catch-invisible-edits (quote show-and-error))
  '(org-export-backends (quote (ascii beamer html icalendar latex odt)))
  '(org-export-dispatch-use-expert-ui t)
@@ -487,6 +532,8 @@
    (quote
     (:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 2.0 :matchers
                  ("begin" "$1" "$" "$$" "\\(" "\\["))))
+ '(org-html-htmlize-output-type (quote css))
+ '(org-html-preamble "{{{ghlink(elbaulp)}}}")
  '(org-hugo-auto-set-lastmod t)
  '(org-hugo-section "post")
  '(org-latex-listings (quote minted))
@@ -525,6 +572,7 @@
                   ("pdflatex -interaction nonstopmode -output-directory %o %f")
                   :image-converter
                   ("convert -density %D -trim -antialias %f -quality 100 %O")))))
+ '(org-roam-directory "~/org-roam")
  '(org-startup-truncated nil)
  '(org-startup-with-inline-images t)
  '(org-tags-column -100)
