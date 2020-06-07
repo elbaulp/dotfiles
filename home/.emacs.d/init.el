@@ -221,8 +221,8 @@
         '(
           ("e" "Experiment" plain (function org-roam--capture-get-point)
            "%?"
-           :file-name "%<%Y%m%d%H%M%S>-${slug}exp"
-           :head "#+TITLE: ${title}\n#+TAGS:"
+           :file-name "%<%Y%m%d%H%M%S>-${slug}"
+           :head "#+title: ${title}\n#+roam_tags:\n#+roam_alias:\n#+roam_key:\n\n"
            :unnarrowed t)
           ))
   :hook
@@ -235,6 +235,10 @@
                ("C-c n g" . org-roam-show-graph))
               :map org-mode-map
               (("C-c n i" . org-roam-insert))))
+(require 'org-roam-protocol)
+(add-hook 'after-init-hook 'org-roam-mode)
+
+
 
 (use-package magit
   :bind (("C-c g" . magit-file-dispatch)
@@ -469,6 +473,7 @@
  '(custom-safe-themes
    (quote
     ("82358261c32ebedfee2ca0f87299f74008a2e5ba5c502bde7aaa15db20ee3731" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" "bf390ecb203806cbe351b966a88fc3036f3ff68cd2547db6ee3676e87327b311" "9240e71034689655a6c05c04063af2c90d0a831aa4e7ca24c8b6e29b5a2da946" "5ed520c86d0f75a51ddce1390db509132870e465f0a9dfe4f0d8fa67ba9024f9" "7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "43c1a8090ed19ab3c0b1490ce412f78f157d69a29828aa977dae941b994b4147" "9a155066ec746201156bb39f7518c1828a73d67742e11271e4f24b7b178c4710" "40da996f3246a3e99a2dff2c6b78e65307382f23db161b8316a5440b037eb72c" default)))
+ '(desktop-save-mode nil)
  '(display-time-24hr-format t)
  '(display-time-day-and-date nil)
  '(display-time-default-load-average nil)
@@ -572,7 +577,10 @@
                   ("pdflatex -interaction nonstopmode -output-directory %o %f")
                   :image-converter
                   ("convert -density %D -trim -antialias %f -quality 100 %O")))))
+ '(org-roam-completion-system (quote helm))
  '(org-roam-directory "~/org-roam")
+ '(org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
+ '(org-roam-link-title-format "rl:%s")
  '(org-startup-truncated nil)
  '(org-startup-with-inline-images t)
  '(org-tags-column -100)
