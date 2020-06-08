@@ -155,7 +155,6 @@
   :init
   (require 'haskell-interactive-mode)
   (require 'haskell-process)
-  (cua-selection-mode nil)
 
   :config
   (interactive-haskell-mode)
@@ -221,8 +220,8 @@
         '(
           ("e" "Experiment" plain (function org-roam--capture-get-point)
            "%?"
-           :file-name "%<%Y%m%d%H%M%S>-${slug}"
-           :head "#+title: ${title}\n#+roam_tags:\n#+roam_alias:\n#+roam_key:\n\n"
+           :file-name "${slug}"
+           :head "#+title: ${title}\n#+roam_tags:\n#+roam_alias:\n#+roam_key:\n* Source\n\n* Relevant Notes\n* Summary\n"
            :unnarrowed t)
           ))
   :hook
@@ -411,7 +410,6 @@
   :config
   (setq blacken-line-length '88))
 
-
 (use-package lsp-python-ms
   :straight t
   :hook (python-mode . (lambda ()
@@ -420,12 +418,25 @@
 
 (add-hook 'python-mode-hook #'lsp)
 
+(use-package pyenv-mode
+  :straight t
+  :hook (python-mode . pyenv-mode))
+
+(defun projectile-pyenv-mode-set ()
+  "Set pyenv version matching project name."
+  (let ((project (projectile-project-name)))
+    (if (member project (pyenv-mode-versions))
+        (pyenv-mode-set project)
+      (pyenv-mode-unset))))
+
+(add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
 
 (use-package py-isort
     :straight (:host github :repo "paetzke/py-isort.el")
     :config
     (add-hook 'before-save-hook 'py-isort-before-save)
     (setq py-isort-options '("--lines=88" "-m=3" "-tc" "-fgw=0" "-ca")))
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;
 ;; END PYTHON CONFIG ;;
@@ -468,7 +479,6 @@
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(column-number-mode t)
- '(cua-enable-cua-keys (quote shift))
  '(custom-enabled-themes (quote (material)))
  '(custom-safe-themes
    (quote
@@ -497,6 +507,7 @@
  '(lsp-enable-completion-at-point t)
  '(lsp-keymap-prefix "C-c v")
  '(lsp-pyls-configuration-sources ["pycodestyle"])
+ '(lsp-pyls-plugins-jedi-use-pyenv-environment t)
  '(lsp-pyls-plugins-pycodestyle-max-line-length 88)
  '(lsp-pyls-plugins-pydocstyle-enabled t)
  '(magit-diff-arguments
@@ -581,6 +592,7 @@
  '(org-roam-directory "~/org-roam")
  '(org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
  '(org-roam-link-title-format "rl:%s")
+ '(org-roam-tag-sources (quote (prop all-directories)))
  '(org-startup-truncated nil)
  '(org-startup-with-inline-images t)
  '(org-tags-column -100)
