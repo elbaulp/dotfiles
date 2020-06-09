@@ -70,7 +70,7 @@ source ~/.fonts/octicons-regular.sh
 source ~/.fonts/pomicons-regular.sh
 source ~/.fonts/fontawesome-regular.sh
 
-USER='Alejandro Alcalde'
+#USER='Alejandro Alcalde'
 
 export PATH=${PATH}:~/bin
 export PATH=${PATH}:/home/hkr/bin/texlive/bin/x86_64-linux
