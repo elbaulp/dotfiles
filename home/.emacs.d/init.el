@@ -48,7 +48,7 @@
   :init (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 ;; Font size in 1/10pt, so 100 would be 10pt
-(set-face-attribute 'default nil :height 100)
+(set-face-attribute 'default nil :height 110)
 
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -588,10 +588,15 @@
                   ("pdflatex -interaction nonstopmode -output-directory %o %f")
                   :image-converter
                   ("convert -density %D -trim -antialias %f -quality 100 %O")))))
+ '(org-roam-buffer-prepare-hook
+   (quote
+    (org-roam-buffer--insert-title org-roam-buffer--insert-backlinks org-roam-buffer--insert-citelinks)))
+ '(org-roam-buffer-width 0.2)
  '(org-roam-completion-system (quote helm))
  '(org-roam-directory "~/Nextcloud/org-roam")
  '(org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
  '(org-roam-link-title-format "rl:%s")
+ '(org-roam-mode t nil (org-roam))
  '(org-roam-tag-sources (quote (prop all-directories)))
  '(org-startup-truncated nil)
  '(org-startup-with-inline-images t)
