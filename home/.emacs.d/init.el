@@ -589,7 +589,7 @@
                   :image-converter
                   ("convert -density %D -trim -antialias %f -quality 100 %O")))))
  '(org-roam-completion-system (quote helm))
- '(org-roam-directory "~/org-roam")
+ '(org-roam-directory "~/Nextcloud/org-roam")
  '(org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
  '(org-roam-link-title-format "rl:%s")
  '(org-roam-tag-sources (quote (prop all-directories)))
