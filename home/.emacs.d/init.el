@@ -231,7 +231,7 @@
   :bind (:map org-roam-mode-map
               (("C-c n l" . org-roam)
                ("C-c n f" . org-roam-find-file)
-               ("C-c n g" . org-roam-show-graph))
+               ("C-c n g" . org-roam-graph))
               :map org-mode-map
               (("C-c n i" . org-roam-insert))))
 (require 'org-roam-protocol)
@@ -594,7 +594,7 @@
  '(org-roam-buffer-width 0.2)
  '(org-roam-completion-system (quote helm))
  '(org-roam-directory "~/Nextcloud/org-roam")
- '(org-roam-graph-viewer "/Applications/Firefox.app/Contents/MacOS/firefox-bin")
+ '(org-roam-graph-viewer "firefox-bin")
  '(org-roam-link-title-format "rl:%s")
  '(org-roam-mode t nil (org-roam))
  '(org-roam-tag-sources (quote (prop all-directories)))
