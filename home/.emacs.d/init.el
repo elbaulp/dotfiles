@@ -65,11 +65,12 @@
 
 ;; Hightlight current line
 (use-package hlinum
+  :straight (:host github :repo "tom-tan/hlinum-mode")
   :hook (hlinum-activate global-hl-line-mode)
-  :straight t)
+  :config
+  '(linum-highlight-in-all-buffersp t))
 
 ;; Themes
-(use-package nord-theme)
 (use-package material-theme)
 
 (if (daemonp)
@@ -479,11 +480,10 @@
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(column-number-mode t)
- '(custom-enabled-themes (quote (material)))
  '(custom-safe-themes
    (quote
-    ("82358261c32ebedfee2ca0f87299f74008a2e5ba5c502bde7aaa15db20ee3731" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" "bf390ecb203806cbe351b966a88fc3036f3ff68cd2547db6ee3676e87327b311" "9240e71034689655a6c05c04063af2c90d0a831aa4e7ca24c8b6e29b5a2da946" "5ed520c86d0f75a51ddce1390db509132870e465f0a9dfe4f0d8fa67ba9024f9" "7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "43c1a8090ed19ab3c0b1490ce412f78f157d69a29828aa977dae941b994b4147" "9a155066ec746201156bb39f7518c1828a73d67742e11271e4f24b7b178c4710" "40da996f3246a3e99a2dff2c6b78e65307382f23db161b8316a5440b037eb72c" default)))
- '(desktop-save-mode nil)
+    ("732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" default)))
+ '(desktop-save-mode 1)
  '(display-time-24hr-format t)
  '(display-time-day-and-date nil)
  '(display-time-default-load-average nil)
@@ -603,7 +603,7 @@
  '(org-tags-column -100)
  '(package-selected-packages
    (quote
-    (yaml-mode python-docstring py-docformatter py-autoflake py-isort dockerfile-mode kotlin-mode auto-package-update lsp-treemacs material-theme material-light company-lsp ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters nord-theme yatemplate shut-up buttercup ess-rutils leuven-theme leuven org-bullets ess camcorder magit popup-imenu goto-chg which-key helm-descbinds yasnippet smartparens auto-org-md helm-projectile use-package)))
+    (yaml-mode python-docstring py-docformatter py-autoflake py-isort dockerfile-mode kotlin-mode auto-package-update lsp-treemacs company-lsp ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters yatemplate shut-up buttercup ess-rutils org-bullets ess camcorder magit popup-imenu goto-chg which-key helm-descbinds yasnippet smartparens auto-org-md helm-projectile use-package)))
  '(safe-local-variable-values
    (quote
     ((dockerfile-image-name . "spark-locak")
