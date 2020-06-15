@@ -483,7 +483,8 @@
  '(custom-safe-themes
    (quote
     ("732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" default)))
- '(desktop-save-mode 1)
+ '(desktop-save (quote ask))
+ '(desktop-save-mode t)
  '(display-time-24hr-format t)
  '(display-time-day-and-date nil)
  '(display-time-default-load-average nil)
