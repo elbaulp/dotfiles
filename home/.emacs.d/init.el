@@ -48,7 +48,7 @@
   :init (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 ;; Font size in 1/10pt, so 100 would be 10pt
-(set-face-attribute 'default nil :height 110)
+(set-face-attribute 'default nil :height 130)
 
 ;; enable y/n answers
 (fset 'yes-or-no-p 'y-or-n-p)
@@ -409,7 +409,7 @@
   :straight t
   :hook (python-mode . blacken-mode)
   :config
-  (setq blacken-line-length '88))
+  (setq blacken-line-length '100))
 
 (use-package lsp-python-ms
   :straight t
@@ -436,7 +436,7 @@
     :straight (:host github :repo "paetzke/py-isort.el")
     :config
     (add-hook 'before-save-hook 'py-isort-before-save)
-    (setq py-isort-options '("--lines=88" "-m=3" "-tc" "-fgw=0" "-ca")))
+    (setq py-isort-options '("--lines=100" "-m=3" "-tc" "-fgw=0" "-ca")))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -479,6 +479,8 @@
  ;; If there is more than one, they won't work right.
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
+ '(blacken-executable "/Users/alejandro/.pyenv/shims/black")
+ '(blacken-line-length 100)
  '(column-number-mode t)
  '(cursor-type (quote hbar))
  '(custom-safe-themes
@@ -508,8 +510,23 @@
  '(lsp-keymap-prefix "C-c v")
  '(lsp-pyls-configuration-sources ["pycodestyle"])
  '(lsp-pyls-plugins-jedi-use-pyenv-environment t)
- '(lsp-pyls-plugins-pycodestyle-max-line-length 88)
+ '(lsp-pyls-plugins-pycodestyle-max-line-length 100)
  '(lsp-pyls-plugins-pydocstyle-enabled t)
+ '(magit-blame-styles
+   (quote
+    ((headings
+      (heading-format . "%-20a %C %s
+"))
+     (margin
+      (margin-format " %s%f" " %C %a" " %H")
+      (margin-width . 42)
+      (margin-face . magit-blame-margin)
+      (margin-body-face magit-blame-dimmed))
+     (highlight
+      (highlight-face . magit-blame-highlight))
+     (lines
+      (show-lines . t)
+      (show-message . t)))))
  '(magit-diff-arguments
    (quote
     ("--ignore-space-change" "--ignore-all-space" "--no-ext-diff" "--stat")))
