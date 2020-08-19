@@ -142,6 +142,10 @@
   :commands helm-lsp-workspace-symbol
   :straight t)
 
+(use-package yasnippet
+  :straight t)
+(yas-global-mode t)
+
 (setq company-minimum-prefix-length 1
       company-idle-delay 0.0) ;; default is 0.2
 
