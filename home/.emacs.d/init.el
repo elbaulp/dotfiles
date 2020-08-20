@@ -118,7 +118,10 @@
 ;; EMACS-LSP ;;
 ;;;;;;;;;;;;;;;
 (use-package lsp-mode
-  :hook ((lsp-mode . lsp-enable-which-key-integration))
+  :hook (
+         (lsp-mode . lsp-enable-which-key-integration)
+         (lsp-mode . yas-minor-mode)
+         )
   :commands lsp
   :straight t)
 (add-hook 'python-mode-hook #'lsp)
@@ -144,7 +147,7 @@
 
 (use-package yasnippet
   :straight t)
-(yas-global-mode t)
+
 
 (setq company-minimum-prefix-length 1
       company-idle-delay 0.0) ;; default is 0.2
