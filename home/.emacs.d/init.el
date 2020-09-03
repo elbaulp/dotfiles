@@ -154,7 +154,7 @@
 
 
 (setq company-minimum-prefix-length 1
-      company-idle-delay 0.0) ;; default is 0.2
+      company-idle-delay 0.2) ;; default is 0.2
 
 (setq lsp-prefer-capf t)
 ;(setq company-capf t)
@@ -493,10 +493,9 @@
  '(blacken-executable "/Users/alejandro/.pyenv/shims/black")
  '(blacken-line-length 100)
  '(column-number-mode t)
- '(cursor-type (quote hbar))
+ '(cursor-type 'hbar)
  '(custom-safe-themes
-   (quote
-    ("732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" default)))
+   '("732b807b0543855541743429c9979ebfb363e27ec91e82f463c91e68c772f6e3" default))
  '(display-time-24hr-format t)
  '(display-time-day-and-date nil)
  '(display-time-default-load-average nil)
@@ -508,8 +507,7 @@
  '(global-hl-line-mode t)
  '(global-hl-line-sticky-flag nil)
  '(haskell-mode-hook
-   (quote
-    (flyspell-prog-mode haskell-decl-scan-mode haskell-indentation-mode imenu-add-menubar-index interactive-haskell-mode haskell-auto-insert-module-template)))
+   '(flyspell-prog-mode haskell-decl-scan-mode haskell-indentation-mode imenu-add-menubar-index interactive-haskell-mode haskell-auto-insert-module-template))
  '(haskell-process-auto-import-loaded-modules t)
  '(haskell-process-log t)
  '(haskell-process-suggest-remove-import-lines t)
@@ -517,15 +515,18 @@
  '(hl-sexp-background-color "#efebe9")
  '(linum-format " %3i ")
  '(linum-highlight-in-all-buffersp t)
- '(lsp-enable-completion-at-point t)
+ '(lsp-completion-enable t)
  '(lsp-keymap-prefix "C-c v")
  '(lsp-pyls-configuration-sources ["pycodestyle"])
  '(lsp-pyls-plugins-jedi-use-pyenv-environment t)
  '(lsp-pyls-plugins-pycodestyle-max-line-length 100)
  '(lsp-pyls-plugins-pydocstyle-enabled t)
+ '(lsp-ui-doc-header t)
+ '(lsp-ui-doc-include-signature t)
+ '(lsp-ui-doc-position 'top)
+ '(lsp-ui-doc-use-webkit t)
  '(magit-blame-styles
-   (quote
-    ((headings
+   '((headings
       (heading-format . "%-20a %C %s
 "))
      (margin
@@ -537,18 +538,14 @@
       (highlight-face . magit-blame-highlight))
      (lines
       (show-lines . t)
-      (show-message . t)))))
+      (show-message . t))))
  '(magit-diff-arguments
-   (quote
-    ("--ignore-space-change" "--ignore-all-space" "--no-ext-diff" "--stat")))
- '(magit-section-visibility-indicator
-   (quote
-    (magit-fringe-bitmap-bold> . magit-fringe-bitmap-boldv)))
+   '("--ignore-space-change" "--ignore-all-space" "--no-ext-diff" "--stat"))
+ '(magit-section-visibility-indicator '(magit-fringe-bitmap-bold> . magit-fringe-bitmap-boldv))
  '(menu-bar f)
  '(menu-bar-mode nil)
  '(org-agenda-custom-commands
-   (quote
-    (("n" "Agenda and all TODOs"
+   '(("n" "Agenda and all TODOs"
       ((agenda "" nil)
        (alltodo "" nil))
       nil)
@@ -557,42 +554,36 @@
              ((org-agenda-overriding-header "Learning")))
        (todo "READ"
              ((org-agenda-overriding-header "Pending posts"))))
-      nil nil))))
- '(org-agenda-files (quote ("~/Nextcloud/ORGS")))
- '(org-babel-load-languages (quote ((R . t))))
+      nil nil)))
+ '(org-agenda-files '("~/Nextcloud/ORGS"))
+ '(org-babel-load-languages '((R . t)))
  '(org-capture-templates
-   (quote
-    (("e" "Experiment" plain
-      (function org-roam--capture-get-point)
-      "Exp %?" :unnarrowed t :org-roam
+   '(("e" "Experiment" plain #'org-roam--capture-get-point "Exp %?" :unnarrowed t :org-roam
       (:head "#+TITLE: ${title}
-" :file-name "%<%Y%m%d%H%M%S>-${slug}exp")))))
- '(org-catch-invisible-edits (quote show-and-error))
- '(org-export-backends (quote (ascii beamer html icalendar latex odt)))
+" :file-name "%<%Y%m%d%H%M%S>-${slug}exp"))))
+ '(org-catch-invisible-edits 'show-and-error)
+ '(org-export-backends '(ascii beamer html icalendar latex odt))
  '(org-export-dispatch-use-expert-ui t)
  '(org-export-headline-levels 6)
  '(org-export-in-background nil)
  '(org-format-latex-options
-   (quote
-    (:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 2.0 :matchers
-                 ("begin" "$1" "$" "$$" "\\(" "\\["))))
- '(org-html-htmlize-output-type (quote css))
+   '(:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 2.0 :matchers
+                 ("begin" "$1" "$" "$$" "\\(" "\\[")))
+ '(org-html-htmlize-output-type 'css)
  '(org-html-preamble "{{{ghlink(elbaulp)}}}")
  '(org-hugo-auto-set-lastmod t)
  '(org-hugo-section "post")
- '(org-latex-listings (quote minted))
- '(org-latex-minted-options (quote (("mathescape" "true"))))
- '(org-latex-packages-alist (quote (("outputdir=metafiles" "minted" t))))
+ '(org-latex-listings 'minted)
+ '(org-latex-minted-options '(("mathescape" "true")))
+ '(org-latex-packages-alist '(("outputdir=metafiles" "minted" t)))
  '(org-latex-pdf-process
-   (quote
-    ("mkdir %o/metafiles" "%latex -shell-escape -interaction nonstopmode -output-directory %o/metafiles %f" "%bib %b" "%latex -shell-escape -interaction nonstopmode -output-directory %o/metafiles %f" "%latex -shell-escape -interaction nonstopmode -output-directory %o/metafiles %f")))
- '(org-log-done (quote time))
+   '("mkdir %o/metafiles" "%latex -shell-escape -interaction nonstopmode -output-directory %o/metafiles %f" "%bib %b" "%latex -shell-escape -interaction nonstopmode -output-directory %o/metafiles %f" "%latex -shell-escape -interaction nonstopmode -output-directory %o/metafiles %f"))
+ '(org-log-done 'time)
  '(org-log-into-drawer t)
- '(org-log-reschedule (quote note))
+ '(org-log-reschedule 'note)
  '(org-pretty-entities t)
  '(org-preview-latex-process-alist
-   (quote
-    ((dvipng :programs
+   '((dvipng :programs
              ("latex" "dvipng")
              :description "dvi > png" :message "you need to install the programs: latex and dvipng." :image-input-type "dvi" :image-output-type "png" :image-size-adjust
              (1.0 . 1.0)
@@ -615,36 +606,30 @@
                   :latex-compiler
                   ("pdflatex -interaction nonstopmode -output-directory %o %f")
                   :image-converter
-                  ("convert -density %D -trim -antialias %f -quality 100 %O")))))
+                  ("convert -density %D -trim -antialias %f -quality 100 %O"))))
  '(org-roam-buffer-prepare-hook
-   (quote
-    (org-roam-buffer--insert-title org-roam-buffer--insert-backlinks org-roam-buffer--insert-citelinks)))
+   '(org-roam-buffer--insert-title org-roam-buffer--insert-backlinks org-roam-buffer--insert-citelinks))
  '(org-roam-buffer-width 0.2)
- '(org-roam-completion-system (quote helm))
+ '(org-roam-completion-system 'helm)
  '(org-roam-directory "~/Nextcloud/org-roam")
  '(org-roam-graph-viewer "firefox-bin")
  '(org-roam-link-title-format "rl:%s")
  '(org-roam-mode t nil (org-roam))
- '(org-roam-tag-sources (quote (prop all-directories)))
+ '(org-roam-tag-sources '(prop all-directories))
  '(org-startup-truncated nil)
  '(org-startup-with-inline-images t)
  '(org-tags-column -100)
  '(package-selected-packages
-   (quote
-    (yaml-mode python-docstring py-docformatter py-autoflake py-isort dockerfile-mode kotlin-mode auto-package-update lsp-treemacs company-lsp ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters yatemplate shut-up buttercup ess-rutils org-bullets ess camcorder magit popup-imenu goto-chg which-key helm-descbinds yasnippet smartparens auto-org-md helm-projectile use-package)))
+   '(yaml-mode python-docstring py-docformatter py-autoflake py-isort dockerfile-mode kotlin-mode auto-package-update lsp-treemacs company-lsp ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters yatemplate shut-up buttercup ess-rutils org-bullets ess camcorder magit popup-imenu goto-chg which-key helm-descbinds yasnippet smartparens auto-org-md helm-projectile use-package))
  '(safe-local-variable-values
-   (quote
-    ((dockerfile-image-name . "spark-locak")
+   '((dockerfile-image-name . "spark-locak")
      (dockerfile-image-name . "local-image-spark")
      (org-hugo-footer . "
 
 [//]: # \"Exported with love from a post written in Org mode\"
 [//]: # \"- https://github.com/kaushalmodi/ox-hugo\"")
      (eval toggle-truncate-lines 1)
-     (eval add-hook
-           (quote after-save-hook)
-           (function org-hugo-export-wim-to-md-after-save)
-           :append :local))))
+     (eval add-hook 'after-save-hook #'org-hugo-export-wim-to-md-after-save :append :local)))
  '(save-place-mode t)
  '(size-indication-mode t)
  '(sml/no-confirm-load-theme t)
@@ -652,8 +637,7 @@
  '(user-full-name "Alejandro Alcalde")
  '(vc-annotate-background nil)
  '(vc-annotate-color-map
-   (quote
-    ((20 . "#f36c60")
+   '((20 . "#f36c60")
      (40 . "#ff9800")
      (60 . "#fff59d")
      (80 . "#8bc34a")
@@ -670,7 +654,7 @@
      (300 . "#f36c60")
      (320 . "#ff9800")
      (340 . "#fff59d")
-     (360 . "#8bc34a"))))
+     (360 . "#8bc34a")))
  '(vc-annotate-very-old-color nil))
 ;;(custom-set-faces
 ;; custom-set-faces was added by Custom.
