@@ -44,7 +44,7 @@
 
 (use-package rainbow-delimiters
   :straight t
-  :commands rainbow-delimiters-mode
+  :commands (rainbow-delimiters-mode)
   :init (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
 
 ;; Font size in 1/10pt, so 100 would be 10pt
@@ -60,26 +60,27 @@
 
 ;; show the cursor when moving after big movements in the window
 (use-package beacon
+  :config
+  (beacon-mode +1)
   :straight t)
-(beacon-mode +1)
+
 
 ;; Hightlight current line
 (use-package hlinum
   :straight (:host github :repo "tom-tan/hlinum-mode")
   :hook (hlinum-activate global-hl-line-mode)
   :config
-  '(linum-highlight-in-all-buffersp t))
+  '(linum-highlight-in-all-buffersp t)
+)
 
 ;; Themes
 (use-package material-theme)
 
-(if (daemonp)
-    (add-hook 'after-make-frame-functions
-              (lambda (frame)
-                (select-frame frame)
-                (load-theme 'material-light t)))
-  (load-theme 'material-light t))
-(load-theme 'material-light t)
+
+;;;;;;;;;;;;;;;;;;;;;;
+;; USEFULL PACKAGES ;;
+;;;;;;;;;;;;;;;;;;;;;;
+
 
 ;; Multiple cursors
 (use-package multiple-cursors
@@ -127,11 +128,11 @@
   :config
   (setq lsp-keymap-prefix "C-c v")
   (define-key lsp-mode-map (kbd "C-c v") lsp-command-map)
+  (add-hook 'python-mode-hook #'lsp)
+  (add-hook 'kotlin-mode-hook #'lsp)
+  (add-hook 'dockerfile-mode-hook #'lsp)
+  (add-hook 'yaml-mode-hook #'lsp)
   :straight t)
-(add-hook 'python-mode-hook #'lsp)
-(add-hook 'kotlin-mode-hook #'lsp)
-(add-hook 'dockerfile-mode-hook #'lsp)
-(add-hook 'yaml-mode-hook #'lsp)
 
 ;; optionally
 (use-package lsp-ui
@@ -143,7 +144,7 @@
 (use-package flycheck
   :straight t
   :init (global-flycheck-mode))
-;(add-hook 'after-init-hook 'global-company-mode)
+
 ;; if you are helm user
 (use-package helm-lsp
   :commands helm-lsp-workspace-symbol
@@ -152,13 +153,10 @@
 (use-package yasnippet
   :straight t)
 
-
 (setq company-minimum-prefix-length 1
       company-idle-delay 0.2) ;; default is 0.2
 
 (setq lsp-prefer-capf t)
-;(setq company-capf t)
-(setq lsp-keymap-prefix "C-c v")
 
 ;;;;;;;;;;;;;
 ;; HASKELL ;;
@@ -196,12 +194,7 @@
 
   (eval-after-load "haskell-cabal"
     '(define-key haskell-cabal-mode-map (kbd "C-c C-c") 'haskell-compile))
-
-
   :straight t)
-
-
-
 ;;;;;;;;;;;;;;;;;
 ;; END HASKELL ;;
 ;;;;;;;;;;;;;;;;;
@@ -227,6 +220,8 @@
 ;;;;;;;;;;;;;;
 (use-package org-roam
   :straight t
+  :config
+  (add-hook 'after-init-hook 'org-roam-mode)
   :init
   (setq org-roam-capture-templates
         '(
@@ -247,9 +242,6 @@
               :map org-mode-map
               (("C-c n i" . org-roam-insert))))
 (require 'org-roam-protocol)
-(add-hook 'after-init-hook 'org-roam-mode)
-
-
 
 (use-package magit
   :bind (("C-c g" . magit-file-dispatch)
@@ -264,30 +256,25 @@
   :diminish eldoc-mode
   :commands eldoc-mode)
 
-(use-package ox-hugo
-  :after ox)
-
-
 (use-package org-bullets
-  :config (add-hook 'org-mode-hook 'org-bullets-mode))
-(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-
-
-(setq org-preview-latex-default-process 'imagemagick)
+  :config (add-hook 'org-mode-hook 'org-bullets-mode)
+  (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+  (setq org-preview-latex-default-process 'imagemagick)
+)
 
 ;; Projectile
 ;; http://batsov.com/projectile/
 (use-package projectile
   :demand
   :init   (setq projectile-use-git-grep t)
-  :config (projectile-mode t)
+  :config
+  (setq projectile-require-project-root nil)
+  (projectile-mode t)
   :bind   (
            ("s-F" . projectile-grep)
            ("C-c p" . projectile-command-map)
            )
-  )
-
-(setq projectile-require-project-root nil)
+)
 
 ;; IBuffer
 (global-set-key (kbd "C-x C-b") 'ibuffer)
@@ -298,7 +285,7 @@
   :config
   (which-key-mode)
   (which-key-setup-side-window-right-bottom)
-  )
+)
 
 ;; helm
 (use-package helm
@@ -318,9 +305,6 @@
 (global-set-key (kbd "M-y") 'helm-show-kill-ring)
 (global-set-key (kbd "C-c i") (lambda () (interactive) (find-file  "~/.emacs.d/init.el")))
 (global-set-key (kbd "C-c C-j") 'helm-imenu)
-
-
-
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
 (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
@@ -457,14 +441,11 @@
 (use-package htmlize
     :straight (:host github :repo "hniksic/emacs-htmlize"))
 
-
-
 ;;;;;;;;;;;
 ;; HOOKS ;;
 ;;;;;;;;;;;
 ;; Clean whitespaces on save
 (add-hook 'before-save-hook 'whitespace-cleanup)
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; ENABLE DESIRED MODES ;;
@@ -477,8 +458,6 @@
 (scroll-bar-mode -1)
 ;; the blinking cursor is nothing, but an annoyance
 (blink-cursor-mode -1)
-
-
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Automatically generated    ;;
