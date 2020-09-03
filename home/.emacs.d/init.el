@@ -121,8 +121,12 @@
   :hook (
          (lsp-mode . lsp-enable-which-key-integration)
          (lsp-mode . yas-minor-mode)
+         (lsp-mode . yas-global-mode)
          )
   :commands lsp
+  :config
+  (setq lsp-keymap-prefix "C-c v")
+  (define-key lsp-mode-map (kbd "C-c v") lsp-command-map)
   :straight t)
 (add-hook 'python-mode-hook #'lsp)
 (add-hook 'kotlin-mode-hook #'lsp)
