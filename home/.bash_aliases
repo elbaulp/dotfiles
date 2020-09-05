@@ -85,3 +85,4 @@ export TERM=xterm-256color
 export EDITOR="emacsclient"
 
 wmname LG3D
+alias mt5="cd ~/.wine/drive_c/Program\ Files/Ava5/MQL5/Experts/"
