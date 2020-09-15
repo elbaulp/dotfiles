@@ -58,20 +58,35 @@
       scroll-conservatively 100000
       scroll-preserve-screen-position 1)
 
-;; show the cursor when moving after big movements in the window
-(use-package beacon
-  :config
-  (beacon-mode +1)
-  :straight t)
 
-
-;; Hightlight current line
-(use-package hlinum
-  :straight (:host github :repo "tom-tan/hlinum-mode")
-  :hook (hlinum-activate global-hl-line-mode)
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;; IDO RELATED PACKAGE ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'ido)
+(ido-mode t)
+(ido-everywhere t)
+(use-package ido-vertical-mode
+  :straight t
   :config
-  '(linum-highlight-in-all-buffersp t)
+  (ido-mode 1)
+  (ido-vertical-mode 1)
+  (setq ido-vertical-define-keys 'C-n-and-C-p-only)
+  (setq ido-vertical-show-count t)
 )
+
+(use-package ido-completing-read+
+  :straight t
+  :config
+  (ido-ubiquitous-mode 1)
+  (setq magit-completing-read-function 'magit-ido-completing-read)
+)
+
+(use-package amx
+  :straight t
+  :config
+  (amx-mode t)
+)
+
 
 ;; Themes
 (use-package material-theme
@@ -83,8 +98,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; USEFULL PACKAGES ;;
 ;;;;;;;;;;;;;;;;;;;;;;
-
-
 ;; Multiple cursors
 (use-package multiple-cursors
   :config
@@ -149,9 +162,9 @@
   :init (global-flycheck-mode))
 
 ;; if you are helm user
-(use-package helm-lsp
-  :commands helm-lsp-workspace-symbol
-  :straight t)
+;; (use-package helm-lsp
+;;   :commands helm-lsp-workspace-symbol
+;;   :straight t)
 
 (use-package yasnippet
   :straight t)
@@ -290,61 +303,12 @@
   (which-key-setup-side-window-right-bottom)
 )
 
-;; helm
-(use-package helm
-  :config
-  (global-unset-key (kbd "C-c C-j"))
-  (global-unset-key (kbd "C-x c"))
-  :straight t)
-(require 'helm-config)
-
-;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
-;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
-;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
-(global-set-key (kbd "C-c h") 'helm-command-prefix)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-x b") 'helm-mini)
-(global-set-key (kbd "C-c h o") 'helm-occur)
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(global-set-key (kbd "C-c i") (lambda () (interactive) (find-file  "~/.emacs.d/init.el")))
-(global-set-key (kbd "C-c C-j") 'helm-imenu)
-(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
-(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
-
-(setq helm-split-window-inside-p            t ; open helm buffer inside current window, not occupy whole other window
-      helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
-      helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
-      helm-echo-input-in-header-line t)
-
-(defun spacemacs//helm-hide-minibuffer-maybe ()
-  "Hide minibuffer in Helm session if we use the header line as input field."
-  (when (with-helm-buffer helm-echo-input-in-header-line)
-    (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
-      (overlay-put ov 'window (selected-window))
-      (overlay-put ov 'face
-                   (let ((bg-color (face-background 'default nil)))
-                     `(:background ,bg-color :foreground ,bg-color)))
-      (setq-local cursor-type nil))))
-
-(add-hook 'helm-minibuffer-set-up-hook
-          'spacemacs//helm-hide-minibuffer-maybe)
-
-(setq helm-autoresize-max-height 0)
-(setq helm-autoresize-min-height 20)
-(helm-autoresize-mode 1)
-
-(global-set-key (kbd "M-x") 'helm-M-x)
 (add-to-list 'auto-mode-alist '("\\.org\\’" . org-mode))
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cb" 'org-iswitchb)
 (global-set-key (kbd "<f6>") 'org-capture)
-
-(use-package helm-descbinds)
-(helm-descbinds-mode)
-
-(helm-mode 1)
+(global-set-key (kbd "C-c i") (lambda () (interactive) (find-file  "~/.emacs.d/init.el")))
 
 ;; Personal
 (add-to-list 'exec-path "/usr/bin")
@@ -473,7 +437,7 @@
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(blacken-executable "/Users/alejandro/.pyenv/shims/black")
- '(blacken-line-length 100)
+ '(blacken-line-length 88)
  '(column-number-mode t)
  '(cursor-type (quote hbar))
  '(custom-safe-themes
@@ -497,6 +461,7 @@
  '(haskell-process-suggest-remove-import-lines t)
  '(haskell-stylish-on-save t)
  '(hl-sexp-background-color "#efebe9")
+ '(ido-enable-flex-matching t)
  '(linum-format " %3i ")
  '(linum-highlight-in-all-buffersp t)
  '(lsp-completion-enable t)
@@ -606,7 +571,6 @@
    (quote
     (org-roam-buffer--insert-title org-roam-buffer--insert-backlinks org-roam-buffer--insert-citelinks)))
  '(org-roam-buffer-width 0.2)
- '(org-roam-completion-system (quote helm))
  '(org-roam-directory "~/Nextcloud/org-roam")
  '(org-roam-graph-viewer "firefox-bin")
  '(org-roam-link-title-format "rl:%s")
@@ -617,7 +581,7 @@
  '(org-tags-column -100)
  '(package-selected-packages
    (quote
-    (yaml-mode python-docstring py-docformatter py-autoflake py-isort dockerfile-mode kotlin-mode auto-package-update lsp-treemacs company-lsp ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters yatemplate shut-up buttercup ess-rutils org-bullets ess camcorder magit popup-imenu goto-chg which-key helm-descbinds yasnippet smartparens auto-org-md helm-projectile use-package)))
+    (yaml-mode python-docstring py-docformatter py-autoflake py-isort dockerfile-mode kotlin-mode auto-package-update lsp-treemacs company-lsp ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters yatemplate shut-up buttercup ess-rutils org-bullets ess camcorder magit popup-imenu goto-chg which-key yasnippet smartparens auto-org-md use-package)))
  '(safe-local-variable-values
    (quote
     ((dockerfile-image-name . "spark-locak")
