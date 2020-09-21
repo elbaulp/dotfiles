@@ -36,6 +36,7 @@ _main () {
     make -j4
     make -j4 modules_install
     make install
+    make clean
     echo "Please, update your EFI entry: cp /boot/vmlinuz-*-gentoo /boot/efi/boot/bootx64.efi"
 }
 
