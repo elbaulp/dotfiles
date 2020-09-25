@@ -154,17 +154,21 @@
 (use-package lsp-ui
   :commands lsp-ui-mode
   :straight t)
-(use-package company-lsp
-  :straight t
-  :commands company-lsp)
 (use-package flycheck
   :straight t
   :init (global-flycheck-mode))
 
-;; if you are helm user
-;; (use-package helm-lsp
-;;   :commands helm-lsp-workspace-symbol
-;;   :straight t)
+(use-package company
+  :straight t
+  :config
+  (add-hook 'after-init-hook 'global-company-mode))
+
+(use-package company-box
+  :straight t
+  :hook (company-mode . company-box-mode))
+
+(use-package dap-mode
+  :straight t)
 
 (use-package yasnippet
   :straight t)
@@ -377,7 +381,9 @@
   :straight t
   :hook (python-mode . (lambda ()
                           (require 'lsp-python-ms)
-                          (lsp))))  ; or lsp-deferred
+                          (lsp)))
+  :init
+  (setq lsp-python-ms-executable (executable-find "python-language-server")))
 
 (add-hook 'python-mode-hook #'lsp)
 
@@ -472,7 +478,7 @@
  '(lsp-pyls-plugins-pydocstyle-enabled t)
  '(lsp-ui-doc-header t)
  '(lsp-ui-doc-include-signature t)
- '(lsp-ui-doc-position (quote top))
+ '(lsp-ui-doc-position (quote bottom))
  '(lsp-ui-doc-use-webkit t)
  '(magit-blame-styles
    (quote
@@ -528,7 +534,6 @@
     (:foreground default :background default :scale 1.5 :html-foreground "Black" :html-background "Transparent" :html-scale 2.0 :matchers
                  ("begin" "$1" "$" "$$" "\\(" "\\["))))
  '(org-html-htmlize-output-type (quote css))
- '(org-html-preamble "{{{ghlink(elbaulp)}}}")
  '(org-hugo-auto-set-lastmod t)
  '(org-hugo-section "post")
  '(org-latex-listings (quote minted))
@@ -581,7 +586,7 @@
  '(org-tags-column -100)
  '(package-selected-packages
    (quote
-    (yaml-mode python-docstring py-docformatter py-autoflake py-isort dockerfile-mode kotlin-mode auto-package-update lsp-treemacs company-lsp ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters yatemplate shut-up buttercup ess-rutils org-bullets ess camcorder magit popup-imenu goto-chg which-key yasnippet smartparens auto-org-md use-package)))
+    (yaml-mode python-docstring py-docformatter py-autoflake py-isort dockerfile-mode kotlin-mode auto-package-update lsp-treemacs ox-hugo-auto-export org-annotation-helper ox-hugo auctex ox-latex pyimport rainbow-delimiters yatemplate shut-up buttercup ess-rutils org-bullets ess camcorder magit popup-imenu goto-chg which-key yasnippet smartparens auto-org-md use-package)))
  '(safe-local-variable-values
    (quote
     ((dockerfile-image-name . "spark-locak")
