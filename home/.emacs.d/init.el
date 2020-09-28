@@ -383,19 +383,6 @@
 
 (add-hook 'python-mode-hook #'lsp)
 
-(use-package pyenv-mode
-  :straight t
-  :hook (python-mode . pyenv-mode))
-
-(defun projectile-pyenv-mode-set ()
-  "Set pyenv version matching project name."
-  (let ((project (projectile-project-name)))
-    (if (member project (pyenv-mode-versions))
-        (pyenv-mode-set project)
-      (pyenv-mode-unset))))
-
-(add-hook 'projectile-after-switch-project-hook 'projectile-pyenv-mode-set)
-
 (use-package py-isort
     :straight (:host github :repo "paetzke/py-isort.el")
     :config
@@ -439,7 +426,6 @@
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
  '(blacken-executable "/Users/alejandro/.pyenv/shims/black")
- '(blacken-line-length 88)
  '(column-number-mode t)
  '(cursor-type (quote hbar))
  '(custom-safe-themes
@@ -469,7 +455,6 @@
  '(lsp-completion-enable t)
  '(lsp-keymap-prefix "C-c v")
  '(lsp-pyls-configuration-sources ["pycodestyle"])
- '(lsp-pyls-plugins-jedi-use-pyenv-environment t)
  '(lsp-pyls-plugins-pycodestyle-max-line-length 100)
  '(lsp-pyls-plugins-pydocstyle-enabled t)
  '(lsp-ui-doc-header t)
