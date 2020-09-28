@@ -163,10 +163,6 @@
   :config
   (add-hook 'after-init-hook 'global-company-mode))
 
-(use-package company-box
-  :straight t
-  :hook (company-mode . company-box-mode))
-
 (use-package dap-mode
   :straight t)
 
