@@ -41,6 +41,7 @@
 ;;;;;;;;;;;;;;
 ;; UI stuff ;;
 ;;;;;;;;;;;;;;
+(global-prettify-symbols-mode 1)
 
 (use-package rainbow-delimiters
   :straight t
@@ -399,7 +400,7 @@
     :straight (:host github :repo "paetzke/py-isort.el")
     :config
     (add-hook 'before-save-hook 'py-isort-before-save)
-    (setq py-isort-options '("--lines=100" "-m=3" "-tc" "-fgw=0" "-ca")))
+    (setq py-isort-options '("-m=3" "-tc" "-fgw=0" "-ca")))
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;
@@ -435,8 +436,6 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
  '(blacken-executable "/Users/alejandro/.pyenv/shims/black")
  '(column-number-mode t)
  '(cursor-type 'hbar)
@@ -471,6 +470,7 @@
  '(lsp-ui-doc-include-signature t)
  '(lsp-ui-doc-position 'bottom)
  '(lsp-ui-doc-use-webkit t)
+ '(lsp-ui-flycheck-list-position 'right)
  '(magit-blame-styles
    '((headings
       (heading-format . "%-20a %C %s
@@ -618,8 +618,7 @@
  '(cursor ((t (:background "chocolate"))))
  '(haskell-interactive-face-prompt ((t (:inherit font-lock-function-name-face :foreground "#ff8700"))))
  '(org-roam-link ((t (:background "deep sky blue" :foreground "white"))))
- '(org-roam-link-current ((t (:background "deep sky blue" :foreground "white" :slant italic :weight ultra-bold))))
- '(term-color-white ((t (:background "#263238" :foreground "light green")))))
+ '(org-roam-link-current ((t (:background "deep sky blue" :foreground "white" :slant italic :weight ultra-bold)))))
 (put 'set-goal-column 'disabled nil)
 (provide 'init)
 ;;; init.el ends here
