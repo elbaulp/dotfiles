@@ -102,6 +102,7 @@
 ;; Multiple cursors
 (use-package multiple-cursors
   :config
+  ;; https://github.com/magnars/multiple-cursors.el
   (global-set-key (kbd "C-S-m C-S-m") 'mc/edit-lines)
   (global-set-key (kbd "C->") 'mc/mark-next-like-this)
   (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
@@ -116,6 +117,10 @@
   (global-set-key (kbd "C-S-l >") 'mc/edit-ends-of-lines)
   (global-set-key (kbd "C-S-m *") 'mc/mark-all-dwim)
   (global-set-key (kbd "C-S-r s") 'mc/sort-regions)
+  (global-set-key (kbd "C-S-r r") 'mc/reverse-regions)
+  (global-set-key (kbd "C-S-r n") 'mc/insert-numbers)
+  (global-set-key (kbd "C-S-r a") 'set-rectangular-region-anchor)
+  (global-set-key (kbd "C-S-r p") 'mc/mark-sgml-tag-pair)
 
   :straight t)
 
