@@ -121,6 +121,10 @@
   (global-set-key (kbd "C-S-r n") 'mc/insert-numbers)
   (global-set-key (kbd "C-S-r a") 'set-rectangular-region-anchor)
   (global-set-key (kbd "C-S-r p") 'mc/mark-sgml-tag-pair)
+  (global-set-key (kbd "C-S-u n") 'mc/unmark-next-like-this)
+  (global-set-key (kbd "C-S-u p") 'mc/unmark-previous-like-this)
+  (global-set-key (kbd "C-S-u s") 'mc/skip-to-next-like-this)
+  (global-set-key (kbd "C-S-u r") 'mc/skip-to-previous-like-this)
 
   :straight t)
 
