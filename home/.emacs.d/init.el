@@ -128,6 +128,9 @@
 
   :straight t)
 
+(use-package csv-mode
+  :straight t)
+
 ;;;;;;;;;;;;
 ;; KOTLIN ;;
 ;;;;;;;;;;;;
