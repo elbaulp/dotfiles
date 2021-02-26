@@ -159,9 +159,12 @@
   (define-key lsp-mode-map (kbd "C-c v") lsp-command-map)
   (add-hook 'python-mode-hook #'lsp)
   (add-hook 'kotlin-mode-hook #'lsp)
+  (add-hook 'scala-mode-hook #'lsp)
   (add-hook 'dockerfile-mode-hook #'lsp)
   (add-hook 'yaml-mode-hook #'lsp)
   :straight t)
+
+(load "~/.emacs.d/scala.el")
 
 ;; optionally
 (use-package lsp-ui
@@ -264,10 +267,10 @@
   :straight t
   :config
   (add-hook 'after-init-hook 'org-roam-mode)
+  (setq org-roam-completion-system 'ido)
   :init
   (setq org-roam-capture-templates
-        '(
-          ("e" "Experiment" plain (function org-roam--capture-get-point)
+        '(("e" "Experiment" plain (function org-roam--capture-get-point)
            "%?"
            :file-name "%<%Y%m%d%H%M%S>"
            :head "#+title: ${title}\n#+roam_tags:\n#+roam_alias:\n#+roam_key:\n* Source\n\n* Relevant Notes\n* Summary\n"
@@ -276,7 +279,7 @@
   :hook
   (after-init . org-roam-mode)
   :custom
-  (org-roam-directory "~/Nextcloud/org-roam")
+  (org-roam-directory "~/Development/mein-zettelkasten")
   :bind (:map org-roam-mode-map
               (("C-c n l" . org-roam)
                ("C-c n f" . org-roam-find-file)
@@ -522,13 +525,6 @@
       nil nil))))
  '(org-agenda-files (quote ("~/Nextcloud/ORGS")))
  '(org-babel-load-languages (quote ((R . t))))
- '(org-capture-templates
-   (quote
-    (("e" "Experiment" plain
-      (function org-roam--capture-get-point)
-      "Exp %?" :unnarrowed t :org-roam
-      (:head "#+TITLE: ${title}
-" :file-name "%<%Y%m%d%H%M%S>-${slug}exp")))))
  '(org-catch-invisible-edits (quote show-and-error))
  '(org-export-backends (quote (ascii beamer html icalendar latex odt)))
  '(org-export-dispatch-use-expert-ui t)
@@ -581,7 +577,7 @@
    (quote
     (org-roam-buffer--insert-title org-roam-buffer--insert-backlinks org-roam-buffer--insert-citelinks)))
  '(org-roam-buffer-width 0.2)
- '(org-roam-directory "~/Nextcloud/org-roam")
+ '(org-roam-directory "~/Development/mein-zettelkasten")
  '(org-roam-graph-viewer "firefox-bin")
  '(org-roam-link-title-format "rl:%s")
  '(org-roam-mode t nil (org-roam))
