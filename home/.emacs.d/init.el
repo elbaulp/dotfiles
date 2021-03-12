@@ -73,6 +73,8 @@
   (ido-vertical-mode 1)
   (setq ido-vertical-define-keys 'C-n-and-C-p-only)
   (setq ido-vertical-show-count t)
+  ;; show any name that has the chars you typed
+  (setq ido-enable-flex-matching t)
 )
 
 (use-package ido-completing-read+
@@ -613,6 +615,7 @@
      (360 . "#8bc34a")))
  '(vc-annotate-very-old-color nil)
  '(which-key-frame-max-width 60)
+ '(which-key-mode t)
  '(which-key-side-window-max-width 0.5))
 ;;(custom-set-faces
 ;; custom-set-faces was added by Custom.
